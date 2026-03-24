@@ -840,11 +840,35 @@
                 </div>
             </div>
             <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem;">
-                Dbl-click to add organism. Drag to move. Click two to link!
+                Dbl-click to add organism. Drag to move. Click two to link! Right-click to remove.
             </div>
             <div style="flex-grow: 1; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; background: rgba(0,0,0,0.3); min-height: 250px;">
                 <canvas id="foodwebCanvas" style="position: absolute; top:0; left:0; width: 100%; height: 100%; touch-action: none; cursor: crosshair;"></canvas>
             </div>
+        </div>
+
+        <!-- Dichotomous Key Maker Card -->
+        <div class="card card-large" id="widget-dkMaker" style="display: none;">
+            <div class="card-header" style="justify-content: space-between; margin-bottom: 0.5rem; border-bottom: none;">
+                <div style="display: flex; align-items: center;">
+                    <div class="card-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                        <i class="fa-solid fa-code-branch"></i>
+                    </div>
+                    <h2 class="card-title">Dichotomous Key Maker</h2>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="icon-btn" id="clearDkBtn" title="Clear Key" style="padding: 0.4rem; font-size: 0.9rem; border: none; background: transparent; color: var(--text-muted);"><i class="fa-solid fa-trash-alt"></i></button>
+                </div>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem;">
+                Build a branching key to identify entities. Each step has two paths!
+            </div>
+            <div style="flex-grow: 1; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); overflow-y: auto; background: rgba(0,0,0,0.3); padding: 1rem; min-height: 250px;" id="dkListContainer">
+                <!-- Steps will appear here -->
+            </div>
+            <button class="primary-btn" id="addDkStepBtn" style="margin-top: 1rem; width: 100%;">
+                <i class="fa-solid fa-plus-circle" style="margin-right: 0.5rem;"></i> Add New Step
+            </button>
         </div>
 
         <!-- Study Stats Card -->
@@ -1024,6 +1048,10 @@
                     <span><i class="fa-solid fa-wind" style="color: #a855f7; margin-right: 0.5rem; width: 20px;"></i> Chill Zone</span>
                     <input type="checkbox" id="toggleZen" style="width: 20px; height: 20px;">
                 </label>
+                <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                    <span><i class="fa-solid fa-code-branch" style="color: #8b5cf6; margin-right: 0.5rem; width: 20px;"></i> Dichotomous Key</span>
+                    <input type="checkbox" id="toggleDk" style="width: 20px; height: 20px;">
+                </label>
             </div>
             <div style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted); text-align: center;">Settings are saved instantly for this page.</div>
         </div>
@@ -1146,6 +1174,7 @@
                 if (typeof window.applyWidgetSettings === 'function') window.applyWidgetSettings();
                 if (typeof window.loadFoodwebData === 'function') { setTimeout(() => { window.loadFoodwebData(); window.resizeFwCanvas(); }, 50); }
                 if (typeof window.loadFlashcards === 'function') window.loadFlashcards();
+                if (typeof window.loadDkData === 'function') window.loadDkData();
             }
 
             homeBtn.addEventListener('click', () => loadContext('learning'));
@@ -1824,7 +1853,8 @@
                 'Foodweb': document.getElementById('widget-foodweb'),
                 'Stats': document.getElementById('widget-stats'),
                 'Zen': document.getElementById('widget-zen'),
-                'Flashcards': document.getElementById('widget-flashcards')
+                'Flashcards': document.getElementById('widget-flashcards'),
+                'Dk': document.getElementById('widget-dkMaker')
             };
             const widgetToggles = {
                 'Calculator': document.getElementById('toggleCalculator'),
@@ -1832,14 +1862,15 @@
                 'Foodweb': document.getElementById('toggleFoodweb'),
                 'Stats': document.getElementById('toggleStats'),
                 'Zen': document.getElementById('toggleZen'),
-                'Flashcards': document.getElementById('toggleFlashcards')
+                'Flashcards': document.getElementById('toggleFlashcards'),
+                'Dk': document.getElementById('toggleDk')
             };
 
             editHubBtn.addEventListener('click', () => editHubModal.style.display = 'flex');
             closeEditHubBtn.addEventListener('click', () => editHubModal.style.display = 'none');
 
             window.applyWidgetSettings = function() {
-                let settings = JSON.parse(localStorage.getItem(`widgets_${currentContext}`)) || { 'Calculator': false, 'Scratchpad': false, 'Foodweb': false, 'Stats': false, 'Zen': false, 'Flashcards': false };
+                let settings = JSON.parse(localStorage.getItem(`widgets_${currentContext}`)) || { 'Calculator': false, 'Scratchpad': false, 'Foodweb': false, 'Stats': false, 'Zen': false, 'Flashcards': false, 'Dk': false };
                 
                 for(let k in widgetEls) {
                     let isAvailable = true;
@@ -1958,6 +1989,25 @@
                 const name = prompt("Enter entity name (e.g. Grass, Rabbit):");
                 if(name) {
                     fwNodes.push({id: Date.now(), x, y, name});
+                    saveFoodwebData();
+                    renderFoodweb();
+                }
+            });
+            
+            fwCanvas.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                const bcr = fwCanvas.getBoundingClientRect();
+                const x = e.clientX - bcr.left;
+                const y = e.clientY - bcr.top;
+                let clickedIdx = -1;
+                for(let i = fwNodes.length-1; i>=0; i--) {
+                    if(Math.hypot(fwNodes[i].x - x, fwNodes[i].y - y) <= 35) { clickedIdx = i; break; }
+                }
+                if(clickedIdx !== -1) {
+                    const nodeId = fwNodes[clickedIdx].id;
+                    fwNodes.splice(clickedIdx, 1);
+                    fwEdges = fwEdges.filter(ed => ed.from !== nodeId && ed.to !== nodeId);
+                    if(fwSelectedNode && fwSelectedNode.id === nodeId) fwSelectedNode = null;
                     saveFoodwebData();
                     renderFoodweb();
                 }
@@ -2125,6 +2175,87 @@
                     renderFlashcard();
                 });
             }
+
+            // --- Dichotomous Key Logic ---
+            const dkListContainer = document.getElementById('dkListContainer');
+            const addDkStepBtn = document.getElementById('addDkStepBtn');
+            const clearDkBtn = document.getElementById('clearDkBtn');
+            let dkSteps = [];
+
+            window.loadDkData = function() {
+                dkSteps = JSON.parse(localStorage.getItem(getStorageKey('learningDkSteps'))) || [];
+                renderDk();
+            };
+            function saveDkData() {
+                localStorage.setItem(getStorageKey('learningDkSteps'), JSON.stringify(dkSteps));
+            }
+
+            function renderDk() {
+                dkListContainer.innerHTML = '';
+                if (!dkSteps || dkSteps.length === 0) {
+                    dkListContainer.innerHTML = '<div style="color: var(--text-muted); text-align: center; margin-top: 2rem;">No steps yet. Create your first decision!</div>';
+                } else {
+                    dkSteps.forEach((step, idx) => {
+                        const el = document.createElement('div');
+                        el.style = "background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);";
+                        el.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                                <span style="font-weight: 800; color: var(--accent-2); text-transform: uppercase; font-size: 0.75rem;">Step ${idx + 1}</span>
+                                <button class="dk-del-btn" data-idx="${idx}" style="background:transparent; border:none; color:rgba(255,255,255,0.3); cursor:pointer; transition:color 0.2s;"><i class="fa-solid fa-trash-alt"></i></button>
+                            </div>
+                            <input type="text" placeholder="Question (e.g. Does it have fur?)" value="${step.q}" data-idx="${idx}" data-field="q" class="dk-input" style="width: 100%; margin-bottom: 0.8rem; background: rgba(0,0,0,0.3);">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+                                <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                                    <span style="font-size: 0.7rem; color: var(--accent-3); font-weight: 600;">YES PATH</span>
+                                    <input type="text" placeholder="Result or Go to..." value="${step.yes}" data-idx="${idx}" data-field="yes" class="dk-input" style="font-size: 0.9rem; background: rgba(0,0,0,0.3); width: 100%;">
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                                    <span style="font-size: 0.7rem; color: #ef4444; font-weight: 600;">NO PATH</span>
+                                    <input type="text" placeholder="Result or Go to..." value="${step.no}" data-idx="${idx}" data-field="no" class="dk-input" style="font-size: 0.9rem; background: rgba(0,0,0,0.3); width: 100%;">
+                                </div>
+                            </div>
+                        `;
+                        dkListContainer.appendChild(el);
+                    });
+                }
+                attachDkListeners();
+            }
+
+            function attachDkListeners() {
+                document.querySelectorAll('.dk-input').forEach(inp => {
+                    inp.addEventListener('input', (e) => {
+                        const idx = e.target.dataset.idx;
+                        const field = e.target.dataset.field;
+                        dkSteps[idx][field] = e.target.value;
+                        saveDkData();
+                    });
+                });
+                document.querySelectorAll('.dk-del-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const idx = btn.dataset.idx;
+                        dkSteps.splice(idx, 1);
+                        saveDkData();
+                        renderDk();
+                    });
+                    btn.addEventListener('mouseover', () => btn.style.color = '#ef4444');
+                    btn.addEventListener('mouseout', () => btn.style.color = 'rgba(255,255,255,0.3)');
+                });
+            }
+
+            addDkStepBtn.addEventListener('click', () => {
+                dkSteps.push({ q: '', yes: '', no: '' });
+                saveDkData();
+                renderDk();
+                dkListContainer.scrollTop = dkListContainer.scrollHeight;
+            });
+
+            clearDkBtn.addEventListener('click', () => {
+                if(confirm("Wipe all steps in this key?")) {
+                    dkSteps = [];
+                    saveDkData();
+                    renderDk();
+                }
+            });
 
             // --- Quote Logic ---
             const quotes = [
