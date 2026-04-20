@@ -599,6 +599,31 @@
             max-width: none !important;
         }
 
+        /* Mind Map native fullscreen */
+        #widget-mindmap:fullscreen {
+            background: #0f172a !important;
+            border-radius: 0 !important;
+            padding: 1.5rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        #widget-mindmap:fullscreen #mmCanvasWrap {
+            flex: 1 !important;
+            min-height: 0 !important;
+        }
+
+        /* Pseudo-fullscreen fallback */
+        .mm-pseudo-fullscreen {
+            position: fixed !important;
+            top: 0 !important; left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 9998 !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            background: #0f172a !important;
+        }
+
         .calc-btn {
             background: rgba(255,255,255,0.05); border: none; border-radius: 8px; color: white; font-size: 1.1rem; font-family: inherit; cursor: pointer; transition: all 0.2s; padding: 0.5rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
@@ -645,6 +670,9 @@
             <button id="homeBtn" class="primary-btn"><i class="fa-solid fa-arrow-left" style="margin-right:0.5rem;"></i> Home</button>
             <button id="editHubBtn" class="icon-btn" title="Customize Page" style="border: 1px solid rgba(255,255,255,0.2); padding: 0.8rem 1.2rem; font-family: inherit; font-size: 1rem;"><i class="fa-solid fa-pen" style="margin-right:0.5rem;"></i> Edit</button>
         </div>
+        <div style="position: absolute; right: 0; top: 0; display: flex; gap: 0.5rem;" id="globalControls">
+            <button id="advancedModeToggle" class="icon-btn" title="Toggle Advanced Learner Mode" style="border: 1px solid rgba(255,255,255,0.2); padding: 0.8rem 1.2rem; font-family: inherit; font-size: 1rem; color: var(--text-muted); transition: all 0.3s;"><i class="fa-solid fa-bolt" style="margin-right:0.5rem;"></i> Pro</button>
+        </div>
         <h1 id="mainTitle">Learning Space</h1>
         <p class="subtitle" id="mainSubtitle">Your ultimate command center for studying</p>
     </header>
@@ -665,6 +693,15 @@
                     <input type="text" id="notesLinkInput" placeholder="Class name..." style="padding: 0.4rem 0.6rem; font-size: 0.85rem; width: 110px; border-radius: 6px;">
                     <button type="button" class="primary-btn" id="saveNotesLinkBtn" style="padding: 0.4rem 0.6rem; font-size: 0.85rem;">Link</button>
                     <button type="button" id="unlinkNotesBtn" style="display: none; padding: 0.4rem 0.6rem; font-size: 0.85rem; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px; cursor: pointer; transition: background 0.2s;" title="Unlink Notes" onmouseover="this.style.background='rgba(239, 68, 68, 0.4)'" onmouseout="this.style.background='rgba(239, 68, 68, 0.2)'"><i class="fa-solid fa-unlink"></i></button>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); padding: 0.3rem 0.5rem; border-radius: 8px; font-size: 0.85rem;">
+                <button class="icon-btn" id="prevNotesPageBtn" style="padding: 0.2rem 0.5rem;" title="Previous Page"><i class="fa-solid fa-chevron-left"></i></button>
+                <div style="font-weight: 600;">Page <span id="NotesPageLabel">1</span> / <span id="NotesTotalPagesLabel">1</span></div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="icon-btn" id="addNotesPageBtn" style="padding: 0.2rem 0.5rem; color: var(--accent-3);" title="New Page"><i class="fa-solid fa-plus"></i></button>
+                    <button class="icon-btn" id="deleteNotesPageBtn" style="padding: 0.2rem 0.5rem; color: #ef4444;" title="Delete Page"><i class="fa-solid fa-trash"></i></button>
+                    <button class="icon-btn" id="nextNotesPageBtn" style="padding: 0.2rem 0.5rem;" title="Next Page"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
             <textarea id="notesArea" placeholder="Jot down your thoughts, concepts, or reminders here..."></textarea>
@@ -773,6 +810,15 @@
                     <button class="icon-btn" id="clearCanvasBtn" title="Clear board" style="padding: 0.4rem; font-size: 0.9rem; border: none; background: transparent; color: var(--text-muted);"><i class="fa-solid fa-trash-alt"></i></button>
                 </div>
             </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); padding: 0.3rem 0.5rem; border-radius: 8px; font-size: 0.85rem;">
+                <button class="icon-btn" id="prevScratchpadPageBtn" style="padding: 0.2rem 0.5rem;" title="Previous Page"><i class="fa-solid fa-chevron-left"></i></button>
+                <div style="font-weight: 600;">Page <span id="ScratchpadPageLabel">1</span> / <span id="ScratchpadTotalPagesLabel">1</span></div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="icon-btn" id="addScratchpadPageBtn" style="padding: 0.2rem 0.5rem; color: var(--accent-3);" title="New Page"><i class="fa-solid fa-plus"></i></button>
+                    <button class="icon-btn" id="deleteScratchpadPageBtn" style="padding: 0.2rem 0.5rem; color: #ef4444;" title="Delete Page"><i class="fa-solid fa-trash"></i></button>
+                    <button class="icon-btn" id="nextScratchpadPageBtn" style="padding: 0.2rem 0.5rem;" title="Next Page"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
             <div style="flex-grow: 1; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; background: rgba(0,0,0,0.3); min-height: 200px;">
                 <canvas id="scratchpadCanvas" style="position: absolute; top:0; left:0; width: 100%; height: 100%; cursor: crosshair; touch-action: none;"></canvas>
             </div>
@@ -839,6 +885,15 @@
                     <button class="icon-btn" id="clearFoodwebBtn" title="Clear board" style="padding: 0.4rem; font-size: 0.9rem; border: none; background: transparent; color: var(--text-muted);"><i class="fa-solid fa-trash-alt"></i></button>
                 </div>
             </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); padding: 0.3rem 0.5rem; border-radius: 8px; font-size: 0.85rem;">
+                <button class="icon-btn" id="prevFoodwebPageBtn" style="padding: 0.2rem 0.5rem;" title="Previous Page"><i class="fa-solid fa-chevron-left"></i></button>
+                <div style="font-weight: 600;">Page <span id="FoodwebPageLabel">1</span> / <span id="FoodwebTotalPagesLabel">1</span></div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="icon-btn" id="addFoodwebPageBtn" style="padding: 0.2rem 0.5rem; color: var(--accent-3);" title="New Page"><i class="fa-solid fa-plus"></i></button>
+                    <button class="icon-btn" id="deleteFoodwebPageBtn" style="padding: 0.2rem 0.5rem; color: #ef4444;" title="Delete Page"><i class="fa-solid fa-trash"></i></button>
+                    <button class="icon-btn" id="nextFoodwebPageBtn" style="padding: 0.2rem 0.5rem;" title="Next Page"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
             <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem;">
                 Dbl-click to add organism. Drag to move. Click two to link! Right-click to remove.
             </div>
@@ -860,6 +915,15 @@
                     <button class="icon-btn" id="clearDkBtn" title="Clear Key" style="padding: 0.4rem; font-size: 0.9rem; border: none; background: transparent; color: var(--text-muted);"><i class="fa-solid fa-trash-alt"></i></button>
                 </div>
             </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); padding: 0.3rem 0.5rem; border-radius: 8px; font-size: 0.85rem;">
+                <button class="icon-btn" id="prevDkPageBtn" style="padding: 0.2rem 0.5rem;" title="Previous Page"><i class="fa-solid fa-chevron-left"></i></button>
+                <div style="font-weight: 600;">Page <span id="DkPageLabel">1</span> / <span id="DkTotalPagesLabel">1</span></div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="icon-btn" id="addDkPageBtn" style="padding: 0.2rem 0.5rem; color: var(--accent-3);" title="New Page"><i class="fa-solid fa-plus"></i></button>
+                    <button class="icon-btn" id="deleteDkPageBtn" style="padding: 0.2rem 0.5rem; color: #ef4444;" title="Delete Page"><i class="fa-solid fa-trash"></i></button>
+                    <button class="icon-btn" id="nextDkPageBtn" style="padding: 0.2rem 0.5rem;" title="Next Page"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
             <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem;">
                 Build a branching key to identify entities. Each step has two paths!
             </div>
@@ -873,11 +937,14 @@
 
         <!-- Study Stats Card -->
         <div class="card" id="widget-stats" style="display: none;">
-            <div class="card-header">
-                <div class="card-icon" style="background: rgba(14, 165, 233, 0.1); color: #0ea5e9;">
-                    <i class="fa-solid fa-chart-line"></i>
+            <div class="card-header" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center;">
+                    <div class="card-icon" style="background: rgba(14, 165, 233, 0.1); color: #0ea5e9;">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h2 class="card-title">Study Insights</h2>
                 </div>
-                <h2 class="card-title">Study Insights</h2>
+                <button class="icon-btn" id="resetStatsBtn" title="Reset Insights" style="padding: 0.4rem; font-size: 0.9rem; border: none; background: transparent; color: var(--text-muted); transition: color 0.2s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='var(--text-muted)'"><i class="fa-solid fa-rotate-left"></i></button>
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; flex-grow: 1;">
                 <div style="background: rgba(0,0,0,0.2); border-radius: 15px; padding: 1rem; text-align: center; display: flex; flex-direction: column; justify-content: center;">
@@ -941,6 +1008,30 @@
                     <button class="icon-btn" id="nextFlashBtn"><i class="fa-solid fa-chevron-right"></i></button>
                     <button class="icon-btn" id="deleteFlashBtn" style="color: #ef4444; margin-left: 0.5rem;"><i class="fa-solid fa-trash"></i></button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Extra Hubs Card (Always Home Page) -->
+        <div class="card card-large" id="extraHubCard">
+            <div class="card-header" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center;">
+                    <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-3);">
+                        <i class="fa-solid fa-shapes"></i>
+                    </div>
+                    <h2 class="card-title">Extra Hubs</h2>
+                </div>
+                <span style="color: var(--text-muted); font-size: 0.85rem;">Activities & Home Learning</span>
+            </div>
+            
+            <div class="link-input-container">
+                <input type="text" id="extraHubInput" placeholder="Hub name (e.g. Karate, Coding Club, Home Reading)">
+                <button type="button" class="primary-btn" id="addExtraHubBtn" style="padding: 0 1.2rem;">
+                    <i class="fa-solid fa-plus" style="margin-right: 0.5rem;"></i> Create
+                </button>
+            </div>
+
+            <div class="links-list" id="extraHubsList" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; overflow-y: auto; max-height: 200px; padding-right: 0.5rem;">
+                <!-- Hub links will be added here -->
             </div>
         </div>
 
@@ -1014,17 +1105,333 @@
             </div>
         </div>
 
-    </div>
+        <!-- Kanban Board Card -->
+        <div class="card card-large advanced-feature" id="widget-kanban" style="display: none;">
+            <div class="card-header">
+                <div class="card-icon" style="background: rgba(234, 179, 8, 0.1); color: #eab308;">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+                <h2 class="card-title">Project Kanban</h2>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <input type="text" id="kbTaskInput" placeholder="New task..." style="flex:1;">
+                <button type="button" class="primary-btn" id="addKbTaskBtn">Add</button>
+            </div>
+            <div style="display: flex; gap: 1rem; flex-grow: 1; align-items: stretch; overflow: auto; min-height: 250px;">
+                <div style="flex: 1; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 0.5rem; display: flex; flex-direction: column;">
+                    <h3 style="font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; color: var(--text-muted); text-align: center;">To Do</h3>
+                    <div id="kbColTodo" class="kb-col" style="flex-grow: 1; display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto;"></div>
+                </div>
+                <div style="flex: 1; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 0.5rem; display: flex; flex-direction: column;">
+                    <h3 style="font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; color: #3b82f6; text-align: center;">Doing</h3>
+                    <div id="kbColDoing" class="kb-col" style="flex-grow: 1; display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto;"></div>
+                </div>
+                <div style="flex: 1; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 0.5rem; display: flex; flex-direction: column;">
+                    <h3 style="font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; color: #10b981; text-align: center;">Done</h3>
+                    <div id="kbColDone" class="kb-col" style="flex-grow: 1; display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Focus Timer Card -->
+        <div class="card card-large advanced-feature" id="widget-pomodoro" style="display: none; flex-direction: column;">
+            <div class="card-header" style="width: 100%; justify-content: space-between;">
+                <div style="display: flex; align-items: center;">
+                    <div class="card-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                        <i class="fa-solid fa-stopwatch"></i>
+                    </div>
+                    <h2 class="card-title">Pro Focus Timer</h2>
+                </div>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <button class="icon-btn" id="pomoQueueToggleBtn" title="Toggle Timer Queue" style="font-size: 0.8rem; padding: 0.4rem 0.8rem; color: #f59e0b; border-color: rgba(245,158,11,0.3);">
+                        <i class="fa-solid fa-list-ol" style="margin-right: 0.4rem;"></i>Queue
+                    </button>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1.5rem; flex: 1; flex-wrap: wrap;">
+                <!-- Timer side -->
+                <div style="display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 220px; gap: 1rem; justify-content: center; padding: 1rem 0;">
+                    <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center;">
+                        <button class="primary-btn pomodoro-mode-btn active" data-time="25">Pomodoro</button>
+                        <button class="primary-btn pomodoro-mode-btn" data-time="5" style="background: rgba(255,255,255,0.05);">Short Break</button>
+                        <button class="primary-btn pomodoro-mode-btn" data-time="15" style="background: rgba(255,255,255,0.05);">Long Break</button>
+                    </div>
+                    <!-- Active timer label -->
+                    <div id="pomoActiveLabel" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; min-height: 1.2em;"></div>
+                    <div id="pomodoroDisplay" style="font-size: 5rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--accent-1); text-shadow: 0 0 20px rgba(14, 165, 233, 0.2); line-height: 1;">
+                        25:00
+                    </div>
+                    <!-- Progress bar under timer -->
+                    <div style="width: 100%; max-width: 220px; background: rgba(0,0,0,0.3); border-radius: 999px; height: 5px; overflow: hidden;">
+                        <div id="pomoProgressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #f97316); border-radius: 999px; transition: width 1s linear;"></div>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="primary-btn" id="startPomodoroBtn" style="padding: 0.8rem 2rem; font-size: 1.1rem;"><i class="fa-solid fa-play" style="margin-right: 0.5rem;"></i> Start</button>
+                        <button class="icon-btn" id="resetPomodoroBtn" title="Reset Timer" style="background: rgba(255,255,255,0.1); padding: 0.8rem;"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button class="icon-btn" id="pomoSkipBtn" title="Skip to next in queue" style="background: rgba(255,255,255,0.1); padding: 0.8rem; color: #f59e0b;"><i class="fa-solid fa-forward-step"></i></button>
+                    </div>
+                    <!-- Sessions counter -->
+                    <div style="display: flex; gap: 0.5rem;" id="pomoSessionDots"></div>
+                </div>
+
+                <!-- Queue side -->
+                <div id="pomoQueuePanel" style="flex: 1; min-width: 220px; max-width: 340px; display: flex; flex-direction: column; gap: 0.6rem; border-left: 1px solid rgba(255,255,255,0.08); padding-left: 1.2rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 0.75rem; font-weight: 800; color: #f59e0b; text-transform: uppercase; letter-spacing: 1px;"><i class="fa-solid fa-list-ol" style="margin-right: 0.4rem;"></i>Timer Queue</span>
+                        <button class="icon-btn" id="pomoQueueClearBtn" title="Clear queue" style="padding: 0.2rem 0.5rem; font-size: 0.75rem; color: #ef4444;"><i class="fa-solid fa-broom"></i></button>
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Build a sequence — timers auto-advance when each finishes.</p>
+                    <!-- Add entry form -->
+                    <div style="display: flex; gap: 0.4rem; align-items: center;">
+                        <input type="text" id="pomoQueueNameInput" placeholder="Label (e.g. Read)" style="flex:1; padding: 0.4rem 0.6rem; font-size: 0.8rem;">
+                        <input type="number" id="pomoQueueMinsInput" placeholder="min" min="1" max="999" style="width: 58px; padding: 0.4rem 0.5rem; font-size: 0.8rem;">
+                        <button class="primary-btn" id="pomoQueueAddBtn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background: linear-gradient(135deg,#f59e0b,#ef4444);"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <!-- Queue list -->
+                    <div id="pomoQueueList" style="flex: 1; overflow-y: auto; max-height: 260px; display: flex; flex-direction: column; gap: 0.4rem; padding-right: 0.3rem;">
+                        <!-- Items injected by JS -->
+                    </div>
+                    <!-- Loop toggle -->
+                    <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+                        <input type="checkbox" id="pomoQueueLoopChk" style="width:16px;height:16px;">
+                        <i class="fa-solid fa-repeat" style="color:#a855f7;"></i> Loop queue when finished
+                    </label>
+                    <button class="primary-btn" id="pomoRunQueueBtn" style="background: linear-gradient(135deg,#f59e0b,#ef4444); font-size: 0.85rem; padding: 0.6rem;">
+                        <i class="fa-solid fa-circle-play" style="margin-right: 0.5rem;"></i>Run Queue from Start
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Goals Card -->
+        <div class="card card-large advanced-feature" id="widget-goals" style="display: none; flex-direction: column;">
+            <div class="card-header" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center;">
+                    <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h2 class="card-title">Study Goals</h2>
+                </div>
+                <button class="icon-btn" id="clearDoneGoalsBtn" title="Clear completed goals" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;"><i class="fa-solid fa-broom"></i></button>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Daily Progress</span>
+                    <span id="goalsProgressLabel" style="font-size: 0.85rem; font-weight: 700; color: #10b981;">0 / 0</span>
+                </div>
+                <div style="background: rgba(0,0,0,0.3); border-radius: 999px; height: 8px; overflow: hidden;">
+                    <div id="goalsProgressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 999px; transition: width 0.4s ease;"></div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 0.8rem; margin-bottom: 1rem;">
+                <input type="text" id="goalInput" placeholder="Add a study goal for today..." style="flex: 1;">
+                <button class="primary-btn" id="addGoalBtn" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <div id="goalsList" style="display: flex; flex-direction: column; gap: 0.6rem; overflow-y: auto; max-height: 260px;"></div>
+        </div>
+
+        <!-- Mind Map Builder Card -->
+        <div class="card card-large advanced-feature" id="widget-mindmap" style="display: none; flex-direction: column;">
+            <div class="card-header" style="justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; border-bottom: none; margin-bottom: 0.5rem;">
+                <div style="display: flex; align-items: center;">
+                    <div class="card-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h2 class="card-title">Mind Map</h2>
+                </div>
+                <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="mmNodeInput" placeholder="New idea..." style="width: 130px; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                    <button class="primary-btn" id="mmAddNodeBtn" style="background: linear-gradient(135deg, #a855f7, #7c3aed); padding: 0.4rem 0.9rem;" title="Add node (Enter)"><i class="fa-solid fa-plus"></i> Add</button>
+                    <button class="icon-btn" id="mmFullscreenBtn" title="Fullscreen" style="padding: 0.4rem 0.7rem; font-size: 0.85rem; color: #a855f7;"><i class="fa-solid fa-expand"></i></button>
+                </div>
+            </div>
+
+            <!-- Pro Toolbar -->
+            <div id="mmToolbar" style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem; background: rgba(0,0,0,0.25); border-radius: 10px; padding: 0.4rem 0.6rem; flex-wrap: wrap;">
+                <!-- Node color picker -->
+                <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 0.2rem;">Node:</span>
+                <div id="mmColorPalette" style="display: flex; gap: 0.3rem; align-items: center;">
+                    <button class="mm-color-btn active" data-color="#a855f7" style="background:#a855f7; width:18px; height:18px; border-radius:50%; border: 2px solid transparent; cursor:pointer; transition: transform 0.15s; padding:0;" title="Purple"></button>
+                    <button class="mm-color-btn" data-color="#3b82f6" style="background:#3b82f6; width:18px; height:18px; border-radius:50%; border: 2px solid transparent; cursor:pointer; transition: transform 0.15s; padding:0;" title="Blue"></button>
+                    <button class="mm-color-btn" data-color="#10b981" style="background:#10b981; width:18px; height:18px; border-radius:50%; border: 2px solid transparent; cursor:pointer; transition: transform 0.15s; padding:0;" title="Green"></button>
+                    <button class="mm-color-btn" data-color="#f59e0b" style="background:#f59e0b; width:18px; height:18px; border-radius:50%; border: 2px solid transparent; cursor:pointer; transition: transform 0.15s; padding:0;" title="Amber"></button>
+                    <button class="mm-color-btn" data-color="#ef4444" style="background:#ef4444; width:18px; height:18px; border-radius:50%; border: 2px solid transparent; cursor:pointer; transition: transform 0.15s; padding:0;" title="Red"></button>
+                    <button class="mm-color-btn" data-color="#ec4899" style="background:#ec4899; width:18px; height:18px; border-radius:50%; border: 2px solid transparent; cursor:pointer; transition: transform 0.15s; padding:0;" title="Pink"></button>
+                    <button class="mm-color-btn" data-color="#0ea5e9" style="background:#0ea5e9; width:18px; height:18px; border-radius:50%; border: 2px solid transparent; cursor:pointer; transition: transform 0.15s; padding:0;" title="Cyan"></button>
+                </div>
+                <!-- Shape picker -->
+                <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 0.2rem;"></div>
+                <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 0.2rem;">Shape:</span>
+                <button class="mm-shape-btn active" data-shape="rect" title="Rectangle" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5px; color: white; font-size: 0.7rem; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.2s;">▬ Rect</button>
+                <button class="mm-shape-btn" data-shape="circle" title="Circle" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5px; color: white; font-size: 0.7rem; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.2s;">● Circle</button>
+                <button class="mm-shape-btn" data-shape="diamond" title="Diamond" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5px; color: white; font-size: 0.7rem; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.2s;">◆ Diamond</button>
+                <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 0.2rem;"></div>
+                <!-- Line style -->
+                <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 0.2rem;">Line:</span>
+                <button class="mm-linestyle-btn active" data-linestyle="solid" title="Solid line" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5px; color: white; font-size: 0.75rem; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.2s; font-family: monospace; letter-spacing: -1px;">&#x2014;&#x2014;</button>
+                <button class="mm-linestyle-btn" data-linestyle="dashed" title="Dashed line" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5px; color: white; font-size: 0.75rem; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.2s; font-family: monospace; letter-spacing: 1px;">- - -</button>
+                <button class="mm-linestyle-btn" data-linestyle="dotted" title="Dotted line" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5px; color: white; font-size: 0.75rem; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.2s; font-family: monospace; letter-spacing: 2px;">&middot;&middot;&middot;&middot;</button>
+                <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 0.2rem;"></div>
+                <!-- Arrow style -->
+                <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 0.2rem;">Arrow:</span>
+                <button class="mm-arrow-btn active" data-arrow="none" title="No arrows" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5px; color: white; font-size: 0.75rem; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.2s;">&#x2014;</button>
+                <button class="mm-arrow-btn" data-arrow="forward" title="Forward arrow" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5px; color: white; font-size: 0.75rem; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.2s;">&#x2192;</button>
+                <button class="mm-arrow-btn" data-arrow="both" title="Both directions" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5px; color: white; font-size: 0.75rem; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.2s;">&#x2194;</button>
+                <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 0.2rem;"></div>
+                <!-- Zoom -->
+                <button class="icon-btn" id="mmZoomOutBtn" title="Zoom out" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <span id="mmZoomLabel" style="font-size: 0.75rem; color: var(--text-muted); min-width: 36px; text-align: center;">100%</span>
+                <button class="icon-btn" id="mmZoomInBtn" title="Zoom in" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                <button class="icon-btn" id="mmZoomResetBtn" title="Reset zoom" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;">1:1</button>
+                <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 0.2rem;"></div>
+                <!-- Actions -->
+                <button class="icon-btn" id="mmAutoLayoutBtn" title="Auto-arrange nodes" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; color: #a855f7;"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                <button class="icon-btn" id="mmDelEdgeBtn" title="Delete selected connection" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; color: #f59e0b;"><i class="fa-solid fa-scissors"></i></button>
+                <button class="icon-btn" id="mmExportBtn" title="Export as PNG" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; color: #10b981;"><i class="fa-solid fa-download"></i></button>
+                <button class="icon-btn" id="mmClearBtn" title="Clear this page" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; color: #ef4444;"><i class="fa-solid fa-trash"></i></button>
+            </div>
+
+            <!-- Page Controls -->
+            <div style="display: flex; align-items: center; gap: 0.6rem; margin: 0.2rem 0 0.4rem; font-size: 0.8rem; color: var(--text-muted);">
+                <button class="icon-btn" id="mmPrevPageBtn" style="padding: 0.3rem 0.6rem;"><i class="fa-solid fa-chevron-left"></i></button>
+                <span>Page <strong id="mmPageLabel">1</strong> of <strong id="mmTotalLabel">1</strong></span>
+                <button class="icon-btn" id="mmNextPageBtn" style="padding: 0.3rem 0.6rem;"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="icon-btn" id="mmAddPageBtn" style="padding: 0.3rem 0.6rem; color: #a855f7;" title="New page"><i class="fa-solid fa-file-circle-plus"></i></button>
+                <button class="icon-btn" id="mmDelPageBtn" style="padding: 0.3rem 0.6rem; color: #ef4444;" title="Delete page"><i class="fa-solid fa-file-circle-minus"></i></button>
+                <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 0.5rem; font-style: italic;">Dbl-click node to rename • Right-click to delete</span>
+                <span id="mmHint" style="margin-left: auto; font-style: italic; font-size: 0.75rem; color: var(--accent-4); transition: opacity 0.4s;"></span>
+            </div>
+
+            <!-- Canvas area -->
+            <div id="mmCanvasWrap" style="position: relative; flex: 1; min-height: 360px; background: rgba(0,0,0,0.25); border-radius: 12px; border: 1px solid rgba(255,255,255,0.07); overflow: hidden; cursor: default;">
+                <canvas id="mmCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+                <!-- Inline rename input (hidden by default) -->
+                <input id="mmRenameInput" type="text" style="display:none; position:absolute; z-index:10; background: rgba(15,23,42,0.95); border: 2px solid #a855f7; border-radius: 8px; color: white; font-family: inherit; font-size: 0.9rem; padding: 0.3rem 0.6rem; outline: none; min-width: 100px; text-align: center;">
+            </div>
+        </div>
+
+        <!-- Cipher Lab Card -->
+        <div class="card card-large advanced-feature" id="widget-cipher" style="display: none; flex-direction: column;">
+            <div class="card-header" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center;">
+                    <div class="card-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b;">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h2 class="card-title">Cipher Lab</h2>
+                </div>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <button class="icon-btn" id="cipherSwapBtn" title="Swap input/output" style="padding: 0.4rem 0.7rem; font-size: 0.85rem; color: #f59e0b;"><i class="fa-solid fa-arrows-rotate"></i></button>
+                    <button class="icon-btn" id="cipherCopyBtn" title="Copy output" style="padding: 0.4rem 0.7rem; font-size: 0.85rem; color: #10b981;"><i class="fa-solid fa-copy"></i></button>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1.2rem; flex: 1; flex-wrap: wrap;">
+                <!-- Left: cipher controls -->
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; min-width: 220px; flex: 1;">
+
+                    <!-- Mode tabs -->
+                    <div style="display: flex; gap: 0.4rem; background: rgba(0,0,0,0.25); border-radius: 8px; padding: 0.35rem;">
+                        <button class="cipher-tab active" data-tab="preset" style="flex:1; padding: 0.4rem; border: none; border-radius: 6px; background: rgba(245,158,11,0.2); color: #f59e0b; font-weight: 700; font-family: inherit; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;">Preset Ciphers</button>
+                        <button class="cipher-tab" data-tab="custom" style="flex:1; padding: 0.4rem; border: none; border-radius: 6px; background: transparent; color: var(--text-muted); font-weight: 700; font-family: inherit; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;">Custom Map</button>
+                    </div>
+
+                    <!-- Preset panel -->
+                    <div id="cipherPresetPanel" style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <button class="cipher-preset-btn active" data-preset="caesar" style="padding: 0.5rem; border: 1px solid rgba(245,158,11,0.4); border-radius: 8px; background: rgba(245,158,11,0.15); color: #f59e0b; font-family: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;"><i class="fa-solid fa-c" style="margin-right:0.3rem;"></i>Caesar</button>
+                            <button class="cipher-preset-btn" data-preset="rot13" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: rgba(255,255,255,0.04); color: var(--text-muted); font-family: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">ROT-13</button>
+                            <button class="cipher-preset-btn" data-preset="atbash" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: rgba(255,255,255,0.04); color: var(--text-muted); font-family: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">Atbash</button>
+                            <button class="cipher-preset-btn" data-preset="reverse" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: rgba(255,255,255,0.04); color: var(--text-muted); font-family: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">Reverse</button>
+                            <button class="cipher-preset-btn" data-preset="morse" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: rgba(255,255,255,0.04); color: var(--text-muted); font-family: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">Morse</button>
+                            <button class="cipher-preset-btn" data-preset="binary" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: rgba(255,255,255,0.04); color: var(--text-muted); font-family: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">Binary</button>
+                        </div>
+                        <!-- Caesar shift control -->
+                        <div id="caesarControl" style="background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); border-radius: 8px; padding: 0.7rem 1rem;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem;">
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">Shift amount</span>
+                                <span id="caesarShiftLabel" style="font-size: 1rem; font-weight: 800; color: #f59e0b;">3</span>
+                            </div>
+                            <input type="range" id="caesarShiftSlider" min="1" max="25" value="3" style="width: 100%; accent-color: #f59e0b;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem;"><span>1</span><span>25</span></div>
+                        </div>
+                        <!-- Preset description -->
+                        <div id="cipherPresetDesc" style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; padding: 0.5rem 0;">Shifts each letter forward by the shift amount. Classic Roman cipher.</div>
+                    </div>
+
+                    <!-- Custom map panel -->
+                    <div id="cipherCustomPanel" style="display: none; flex-direction: column; gap: 0.6rem;">
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">Map any character to another. Add as many pairs as you want.</p>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="text" id="cipherMapFrom" maxlength="1" placeholder="From" style="width: 60px; text-align: center; font-size: 1rem; padding: 0.4rem;">
+                            <span style="color: var(--text-muted); font-size: 1.2rem;">&#x2192;</span>
+                            <input type="text" id="cipherMapTo" maxlength="1" placeholder="To" style="width: 60px; text-align: center; font-size: 1rem; padding: 0.4rem;">
+                            <button class="primary-btn" id="cipherAddMapBtn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; background: linear-gradient(135deg, #f59e0b, #ef4444);"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <div id="cipherMapList" style="display: flex; flex-wrap: wrap; gap: 0.4rem; max-height: 130px; overflow-y: auto;"></div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="icon-btn" id="cipherMapClearBtn" style="font-size: 0.78rem; padding: 0.3rem 0.7rem; color: #ef4444;"><i class="fa-solid fa-broom"></i> Clear map</button>
+                            <button class="icon-btn" id="cipherMapCaseSensBtn" style="font-size: 0.78rem; padding: 0.3rem 0.7rem;" title="Toggle case sensitivity"><i class="fa-solid fa-font"></i> <span id="cipherCaseLabel">Case-insensitive</span></button>
+                        </div>
+
+                        <!-- Cipher Code export/import -->
+                        <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.6rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                            <span style="font-size: 0.7rem; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: 0.5px;"><i class="fa-solid fa-qrcode" style="margin-right:0.3rem;"></i>Cipher Code</span>
+                            <!-- Save with name -->
+                            <div style="display: flex; gap: 0.4rem; align-items: center;">
+                                <input type="text" id="cipherSaveName" placeholder="Name this cipher..." style="flex:1; font-size: 0.8rem; padding: 0.35rem 0.6rem;">
+                                <button class="icon-btn" id="cipherSaveNamedBtn" title="Save as named cipher" style="padding: 0.35rem 0.7rem; font-size: 0.8rem; color: #10b981;"><i class="fa-solid fa-floppy-disk"></i></button>
+                            </div>
+                            <!-- Saved cipher list -->
+                            <div id="cipherSavedList" style="display: flex; flex-direction: column; gap: 0.3rem; max-height: 80px; overflow-y: auto;"></div>
+                            <!-- Raw code row -->
+                            <div style="display: flex; gap: 0.4rem; align-items: center;">
+                                <input type="text" id="cipherCodeField" placeholder="Paste a CLX code here..." style="flex:1; font-size: 0.72rem; font-family: monospace; padding: 0.35rem 0.5rem; letter-spacing: 0.3px;">
+                                <button class="icon-btn" id="cipherExportCodeBtn" title="Generate code from current map" style="padding: 0.35rem 0.6rem; font-size: 0.8rem; color: #f59e0b;"><i class="fa-solid fa-bolt"></i></button>
+                                <button class="icon-btn" id="cipherImportCodeBtn" title="Load map from code" style="padding: 0.35rem 0.6rem; font-size: 0.8rem; color: #a855f7;"><i class="fa-solid fa-file-import"></i></button>
+                                <button class="icon-btn" id="cipherCopyCodeBtn" title="Copy code to clipboard" style="padding: 0.35rem 0.6rem; font-size: 0.8rem; color: #10b981;"><i class="fa-solid fa-copy"></i></button>
+                            </div>
+                            <span id="cipherCodeStatus" style="font-size: 0.72rem; color: var(--text-muted); font-style: italic; min-height: 1em;"></span>
+                        </div>
+                    </div>
+
+                    <!-- Encrypt / Decrypt buttons -->
+                    <div style="display: flex; gap: 0.6rem; margin-top: auto;">
+                        <button class="primary-btn" id="cipherEncryptBtn" style="flex:1; background: linear-gradient(135deg, #f59e0b, #d97706); font-weight: 800; letter-spacing: 0.5px;">
+                            <i class="fa-solid fa-lock" style="margin-right: 0.4rem;"></i>Encrypt
+                        </button>
+                        <button class="primary-btn" id="cipherDecryptBtn" style="flex:1; background: linear-gradient(135deg, #3b82f6, #1d4ed8); font-weight: 800; letter-spacing: 0.5px;">
+                            <i class="fa-solid fa-lock-open" style="margin-right: 0.4rem;"></i>Decrypt
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: message I/O -->
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; flex: 1.5; min-width: 220px;">
+                    <div style="display: flex; flex-direction: column; gap: 0.4rem; flex: 1;">
+                        <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;"><i class="fa-solid fa-pencil" style="margin-right: 0.4rem;"></i>Message Input</label>
+                        <textarea id="cipherInput" placeholder="Type or paste your message here..." style="flex: 1; min-height: 130px; resize: vertical; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-family: 'Courier New', monospace; font-size: 0.9rem; padding: 0.8rem; outline: none; transition: border 0.2s; line-height: 1.6;"></textarea>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.4rem; flex: 1;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;"><i class="fa-solid fa-shield" style="margin-right: 0.4rem; color: #f59e0b;"></i>Encrypted / Decrypted Output</label>
+                            <span id="cipherStatusBadge" style="font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 999px; background: rgba(245,158,11,0.15); color: #f59e0b;"></span>
+                        </div>
+                        <textarea id="cipherOutput" placeholder="Output will appear here..." readonly style="flex: 1; min-height: 130px; resize: vertical; background: rgba(0,0,0,0.4); border: 1px solid rgba(245,158,11,0.2); border-radius: 10px; color: #fcd34d; font-family: 'Courier New', monospace; font-size: 0.9rem; padding: 0.8rem; outline: none; line-height: 1.6;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <!-- Edit Hub Modal -->
     <div id="editHubModal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
         <div class="card" style="width: 400px; max-width: 90%; flex-direction: column;">
-            <div class="card-header" style="justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem;">
+            <div class="card-header" style="justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; flex-shrink: 0;">
                 <h2 class="card-title">Customize Dashboard</h2>
                 <button class="icon-btn" id="closeEditHubBtn" style="border: none; background: transparent; padding:0; font-size:1.2rem; color:var(--text-muted);"><i class="fa-solid fa-times"></i></button>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
-                <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; overflow-y: auto; max-height: 60vh; padding-right: 0.5rem;">
+                <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; flex-shrink: 0;">
                     <span><i class="fa-solid fa-calculator" style="color:var(--accent-1); margin-right: 0.5rem; width: 20px;"></i> Calculator</span>
                     <input type="checkbox" id="toggleCalculator" style="width: 20px; height: 20px;">
                 </label>
@@ -1037,7 +1444,7 @@
                     <input type="checkbox" id="toggleFoodweb" style="width: 20px; height: 20px;">
                 </label>
                 <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
-                    <span><i class="fa-solid fa-layer-group" style="color:#fbbf24; margin-right: 0.5rem; width: 20px;"></i> Flashcards</span>
+                    <span><i class="fa-solid fa-layer-group" style="color:var(--accent-2); margin-right: 0.5rem; width: 20px;"></i> Flashcards</span>
                     <input type="checkbox" id="toggleFlashcards" style="width: 20px; height: 20px;">
                 </label>
                 <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
@@ -1052,6 +1459,30 @@
                     <span><i class="fa-solid fa-code-branch" style="color: #8b5cf6; margin-right: 0.5rem; width: 20px;"></i> Dichotomous Key</span>
                     <input type="checkbox" id="toggleDk" style="width: 20px; height: 20px;">
                 </label>
+                
+                <div id="advancedTogglesGroup" style="display: none; flex-direction: column; gap: 1rem; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 1rem; margin-top: 0.5rem;">
+                    <span style="font-size: 0.75rem; color: #eab308; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">Advanced Tools</span>
+                    <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                        <span><i class="fa-solid fa-clipboard-list" style="color:#eab308; margin-right: 0.5rem; width: 20px;"></i> Project Kanban</span>
+                        <input type="checkbox" id="toggleKanban" style="width: 20px; height: 20px;">
+                    </label>
+                    <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                        <span><i class="fa-solid fa-stopwatch" style="color:#ef4444; margin-right: 0.5rem; width: 20px;"></i> Focus Timer</span>
+                        <input type="checkbox" id="togglePomodoro" style="width: 20px; height: 20px;">
+                    </label>
+                    <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                        <span><i class="fa-solid fa-bullseye" style="color:#10b981; margin-right: 0.5rem; width: 20px;"></i> Study Goals</span>
+                        <input type="checkbox" id="toggleGoals" style="width: 20px; height: 20px;">
+                    </label>
+                    <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                        <span><i class="fa-solid fa-brain" style="color:#a855f7; margin-right: 0.5rem; width: 20px;"></i> Mind Map</span>
+                        <input type="checkbox" id="toggleMindmap" style="width: 20px; height: 20px;">
+                    </label>
+                    <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                        <span><i class="fa-solid fa-lock" style="color:#f59e0b; margin-right: 0.5rem; width: 20px;"></i> Cipher Lab</span>
+                        <input type="checkbox" id="toggleCipher" style="width: 20px; height: 20px;">
+                    </label>
+                </div>
             </div>
             <div style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted); text-align: center;">Settings are saved instantly for this page.</div>
         </div>
@@ -1129,7 +1560,17 @@
                     notesLinkInput.value = linksStr;
                     unlinkNotesBtn.style.display = linksStr ? 'block' : 'none';
                 }
-                notesArea.value = localStorage.getItem(getNotesStorageKey()) || '';
+                
+                let rawNotes = localStorage.getItem(getNotesStorageKey());
+                try {
+                    notesPagesData = JSON.parse(rawNotes);
+                    if(!Array.isArray(notesPagesData)) throw new Error('Not an array');
+                } catch(e) {
+                    if(rawNotes) notesPagesData = [rawNotes];
+                    else notesPagesData = [''];
+                }
+                currentNotesPage = 0;
+                renderNotesPage();
                 
                 // Todos
                 let parsedTodos;
@@ -1161,20 +1602,27 @@
                     classScheduleCard.style.display = 'flex';
                     calendarCardWrapper.style.display = 'flex';
                     document.getElementById('widget-quote').style.display = 'flex';
+                    if(document.getElementById('extraHubCard')) document.getElementById('extraHubCard').style.display = 'flex';
                 } else {
                     mainTitle.innerText = `${ctxName} Hub`;
-                    mainSubtitle.innerText = `Dedicated space for your ${ctxName} class`;
+                    mainSubtitle.innerText = `Dedicated space for ${ctxName}`;
                     if(hubControls) hubControls.style.display = 'flex';
                     if(homeBtn) homeBtn.style.display = 'block';
                     classScheduleCard.style.display = 'none';
                     calendarCardWrapper.style.display = 'none';
                     document.getElementById('widget-quote').style.display = 'none';
+                    if(document.getElementById('extraHubCard')) document.getElementById('extraHubCard').style.display = 'none';
                 }
                 
                 if (typeof window.applyWidgetSettings === 'function') window.applyWidgetSettings();
+                if (typeof window.loadScratchpadData === 'function') window.loadScratchpadData();
                 if (typeof window.loadFoodwebData === 'function') { setTimeout(() => { window.loadFoodwebData(); window.resizeFwCanvas(); }, 50); }
                 if (typeof window.loadFlashcards === 'function') window.loadFlashcards();
                 if (typeof window.loadDkData === 'function') window.loadDkData();
+                if (typeof window.loadKanban === 'function') window.loadKanban();
+                if (typeof window.loadPomodoro === 'function') window.loadPomodoro();
+                if (typeof window.loadGoals === 'function') window.loadGoals();
+                if (typeof window.loadMindmap === 'function') window.loadMindmap();
             }
 
             homeBtn.addEventListener('click', () => loadContext('learning'));
@@ -1188,9 +1636,54 @@
             }
             updateStatsDisplay();
 
+            document.getElementById('resetStatsBtn')?.addEventListener('click', () => {
+                if(confirm("Are you sure you want to reset all your study insights? This cannot be undone.")) {
+                    localStorage.removeItem('stat_sessions');
+                    localStorage.removeItem('stat_tasks_done');
+                    localStorage.removeItem('stat_total_min');
+                    updateStatsDisplay();
+                }
+            });
+
             // --- Notes Logic Bind ---
-            notesArea.addEventListener('input', () => {
-                localStorage.setItem(getNotesStorageKey(), notesArea.value);
+            let notesPagesData = [''];
+            let currentNotesPage = 0;
+            const notesPageLabel = document.getElementById('NotesPageLabel');
+            const notesTotalPagesLabel = document.getElementById('NotesTotalPagesLabel');
+            
+            function renderNotesPage() {
+                if(!notesPagesData[currentNotesPage] && notesPagesData[currentNotesPage] !== '') notesPagesData[currentNotesPage] = '';
+                notesArea.value = notesPagesData[currentNotesPage];
+                if(notesPageLabel) notesPageLabel.innerText = currentNotesPage + 1;
+                if(notesTotalPagesLabel) notesTotalPagesLabel.innerText = notesPagesData.length;
+            }
+
+            function saveNotesPages() {
+                notesPagesData[currentNotesPage] = notesArea.value;
+                localStorage.setItem(getNotesStorageKey(), JSON.stringify(notesPagesData));
+            }
+
+            notesArea.addEventListener('input', saveNotesPages);
+
+            document.getElementById('prevNotesPageBtn')?.addEventListener('click', () => {
+                if(currentNotesPage > 0) { saveNotesPages(); currentNotesPage--; renderNotesPage(); }
+            });
+            document.getElementById('nextNotesPageBtn')?.addEventListener('click', () => {
+                if(currentNotesPage < notesPagesData.length - 1) { saveNotesPages(); currentNotesPage++; renderNotesPage(); }
+            });
+            document.getElementById('addNotesPageBtn')?.addEventListener('click', () => {
+                saveNotesPages();
+                notesPagesData.splice(currentNotesPage + 1, 0, '');
+                currentNotesPage++;
+                renderNotesPage();
+                saveNotesPages();
+            });
+            document.getElementById('deleteNotesPageBtn')?.addEventListener('click', () => {
+                if(notesPagesData.length <= 1) { notesPagesData[0] = ''; renderNotesPage(); saveNotesPages(); return; }
+                notesPagesData.splice(currentNotesPage, 1);
+                if(currentNotesPage >= notesPagesData.length) currentNotesPage = notesPagesData.length - 1;
+                renderNotesPage();
+                saveNotesPages();
             });
 
             saveNotesLinkBtn.addEventListener('click', () => {
@@ -1741,6 +2234,11 @@
             });
 
             // --- Scratchpad Logic ---
+            let scratchpadPagesData = [];
+            let currentScratchpadPage = 0;
+            const spPageLabel = document.getElementById('ScratchpadPageLabel');
+            const spTotalLabel = document.getElementById('ScratchpadTotalPagesLabel');
+
             const canvas = document.getElementById('scratchpadCanvas');
             const ctx = canvas.getContext('2d');
             const colorBtns = document.querySelectorAll('.color-btn');
@@ -1754,10 +2252,57 @@
                 ctx.lineWidth = 3;
                 ctx.lineCap = 'round';
                 ctx.strokeStyle = drawColor;
+                if(typeof renderScratchpadPage === 'function') renderScratchpadPage();
             }
             window.addEventListener('resize', resizeCanvas);
-            // Small timeout to ensure DOM is fully layouted before measuring dimensions
             setTimeout(resizeCanvas, 100);
+
+            function renderScratchpadPage() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if(scratchpadPagesData[currentScratchpadPage]) {
+                    const img = new Image();
+                    img.onload = () => ctx.drawImage(img, 0, 0);
+                    img.src = scratchpadPagesData[currentScratchpadPage];
+                }
+                if(spPageLabel) spPageLabel.innerText = currentScratchpadPage + 1;
+                if(spTotalLabel) spTotalLabel.innerText = Math.max(1, scratchpadPagesData.length);
+            }
+
+            window.loadScratchpadData = function() {
+                try {
+                    scratchpadPagesData = JSON.parse(localStorage.getItem(getStorageKey('learningScratchpad'))) || [];
+                    if(!Array.isArray(scratchpadPagesData)) scratchpadPagesData = [];
+                } catch(e) { scratchpadPagesData = []; }
+                if(scratchpadPagesData.length === 0) scratchpadPagesData.push('');
+                currentScratchpadPage = 0;
+                setTimeout(renderScratchpadPage, 50);
+            }
+
+            function saveScratchpadPages() {
+                scratchpadPagesData[currentScratchpadPage] = canvas.toDataURL();
+                localStorage.setItem(getStorageKey('learningScratchpad'), JSON.stringify(scratchpadPagesData));
+            }
+
+            document.getElementById('prevScratchpadPageBtn')?.addEventListener('click', () => {
+                if(currentScratchpadPage > 0) { saveScratchpadPages(); currentScratchpadPage--; renderScratchpadPage(); }
+            });
+            document.getElementById('nextScratchpadPageBtn')?.addEventListener('click', () => {
+                if(currentScratchpadPage < scratchpadPagesData.length - 1) { saveScratchpadPages(); currentScratchpadPage++; renderScratchpadPage(); }
+            });
+            document.getElementById('addScratchpadPageBtn')?.addEventListener('click', () => {
+                saveScratchpadPages();
+                scratchpadPagesData.splice(currentScratchpadPage + 1, 0, '');
+                currentScratchpadPage++;
+                renderScratchpadPage();
+                saveScratchpadPages();
+            });
+            document.getElementById('deleteScratchpadPageBtn')?.addEventListener('click', () => {
+                if(scratchpadPagesData.length <= 1) { ctx.clearRect(0,0,canvas.width,canvas.height); saveScratchpadPages(); renderScratchpadPage(); return; }
+                scratchpadPagesData.splice(currentScratchpadPage, 1);
+                if(currentScratchpadPage >= scratchpadPagesData.length) currentScratchpadPage = scratchpadPagesData.length - 1;
+                renderScratchpadPage();
+                saveScratchpadPages();
+            });
 
             colorBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -1770,12 +2315,13 @@
 
             clearBtn.addEventListener('click', () => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+                saveScratchpadPages();
             });
 
             canvas.addEventListener('mousedown', (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
             canvas.addEventListener('mousemove', (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } });
-            canvas.addEventListener('mouseup', () => isDrawing = false);
-            canvas.addEventListener('mouseout', () => isDrawing = false);
+            canvas.addEventListener('mouseup', () => { isDrawing = false; saveScratchpadPages(); });
+            canvas.addEventListener('mouseout', () => { if(isDrawing) { isDrawing = false; saveScratchpadPages(); } });
             
             canvas.addEventListener('touchstart', (e) => { 
                 e.preventDefault(); 
@@ -1792,7 +2338,7 @@
                     ctx.stroke(); 
                 } 
             }, { passive: false });
-            canvas.addEventListener('touchend', () => isDrawing = false);
+            canvas.addEventListener('touchend', () => { isDrawing = false; saveScratchpadPages(); });
 
             // --- Scratchpad Enlarge Logic ---
             const enlargeCanvasBtn = document.getElementById('enlargeCanvasBtn');
@@ -1854,7 +2400,12 @@
                 'Stats': document.getElementById('widget-stats'),
                 'Zen': document.getElementById('widget-zen'),
                 'Flashcards': document.getElementById('widget-flashcards'),
-                'Dk': document.getElementById('widget-dkMaker')
+                'Dk': document.getElementById('widget-dkMaker'),
+                'Kanban': document.getElementById('widget-kanban'),
+                'Pomodoro': document.getElementById('widget-pomodoro'),
+                'Goals': document.getElementById('widget-goals'),
+                'Mindmap': document.getElementById('widget-mindmap'),
+                'Cipher': document.getElementById('widget-cipher')
             };
             const widgetToggles = {
                 'Calculator': document.getElementById('toggleCalculator'),
@@ -1863,7 +2414,12 @@
                 'Stats': document.getElementById('toggleStats'),
                 'Zen': document.getElementById('toggleZen'),
                 'Flashcards': document.getElementById('toggleFlashcards'),
-                'Dk': document.getElementById('toggleDk')
+                'Dk': document.getElementById('toggleDk'),
+                'Kanban': document.getElementById('toggleKanban'),
+                'Pomodoro': document.getElementById('togglePomodoro'),
+                'Goals': document.getElementById('toggleGoals'),
+                'Mindmap': document.getElementById('toggleMindmap'),
+                'Cipher': document.getElementById('toggleCipher')
             };
 
             editHubBtn.addEventListener('click', () => editHubModal.style.display = 'flex');
@@ -1872,9 +2428,14 @@
             window.applyWidgetSettings = function() {
                 let settings = JSON.parse(localStorage.getItem(`widgets_${currentContext}`)) || { 'Calculator': false, 'Scratchpad': false, 'Foodweb': false, 'Stats': false, 'Zen': false, 'Flashcards': false, 'Dk': false };
                 
+                const isAdv = localStorage.getItem('learningAdvancedMode') === '1';
+                const advGroup = document.getElementById('advancedTogglesGroup');
+                if(advGroup) advGroup.style.display = isAdv ? 'flex' : 'none';
+
                 for(let k in widgetEls) {
                     let isAvailable = true;
                     if ((k === 'Stats' || k === 'Zen') && currentContext !== 'learning') isAvailable = false;
+                    if ((k === 'Kanban' || k === 'Pomodoro' || k === 'Goals' || k === 'Mindmap' || k === 'Cipher') && !isAdv) isAvailable = false;
                     
                     if (widgetEls[k]) widgetEls[k].style.display = (isAvailable && settings[k]) ? 'flex' : 'none';
                     if (widgetToggles[k]) {
@@ -1900,6 +2461,12 @@
             const fwCanvas = document.getElementById('foodwebCanvas');
             const fwCtx = fwCanvas.getContext('2d');
             const fwCard = fwCanvas.closest('.card');
+            
+            let fwPagesData = [];
+            let currentFwPage = 0;
+            const fwPageLabel = document.getElementById('FoodwebPageLabel');
+            const fwTotalLabel = document.getElementById('FoodwebTotalPagesLabel');
+
             let fwNodes = [];
             let fwEdges = [];
             let fwSelectedNode = null;
@@ -1907,15 +2474,56 @@
 
             window.loadFoodwebData = function() {
                 try {
-                    let d = JSON.parse(localStorage.getItem(getStorageKey('learningFoodweb')));
-                    if(d && Array.isArray(d.nodes)) { fwNodes = d.nodes; fwEdges = d.edges || []; }
-                    else { fwNodes = []; fwEdges = []; }
-                } catch(e) { fwNodes = []; fwEdges = []; }
-                renderFoodweb();
+                    fwPagesData = JSON.parse(localStorage.getItem(getStorageKey('learningFoodwebPages'))) || [];
+                    if(!Array.isArray(fwPagesData)) throw new Error();
+                } catch(e) {
+                    try {
+                        let oldData = JSON.parse(localStorage.getItem(getStorageKey('learningFoodweb')));
+                        if(oldData) fwPagesData = [oldData];
+                        else fwPagesData = [];
+                    } catch(ex) { fwPagesData = []; }
+                }
+                if(fwPagesData.length === 0) fwPagesData.push({nodes: [], edges: []});
+                currentFwPage = 0;
+                applyFwPageData();
             };
-            function saveFoodwebData() {
-                localStorage.setItem(getStorageKey('learningFoodweb'), JSON.stringify({nodes: fwNodes, edges: fwEdges}));
+
+            function applyFwPageData() {
+                let data = fwPagesData[currentFwPage] || {nodes: [], edges: []};
+                fwNodes = data.nodes || [];
+                fwEdges = data.edges || [];
+                fwSelectedNode = null;
+                fwDraggingNode = null;
+                if(fwPageLabel) fwPageLabel.innerText = currentFwPage + 1;
+                if(fwTotalLabel) fwTotalLabel.innerText = Math.max(1, fwPagesData.length);
+                renderFoodweb();
             }
+
+            function saveFoodwebData() {
+                fwPagesData[currentFwPage] = {nodes: fwNodes, edges: fwEdges};
+                localStorage.setItem(getStorageKey('learningFoodwebPages'), JSON.stringify(fwPagesData));
+            }
+
+            document.getElementById('prevFoodwebPageBtn')?.addEventListener('click', () => {
+                if(currentFwPage > 0) { saveFoodwebData(); currentFwPage--; applyFwPageData(); }
+            });
+            document.getElementById('nextFoodwebPageBtn')?.addEventListener('click', () => {
+                if(currentFwPage < fwPagesData.length - 1) { saveFoodwebData(); currentFwPage++; applyFwPageData(); }
+            });
+            document.getElementById('addFoodwebPageBtn')?.addEventListener('click', () => {
+                saveFoodwebData();
+                fwPagesData.splice(currentFwPage + 1, 0, {nodes: [], edges: []});
+                currentFwPage++;
+                applyFwPageData();
+                saveFoodwebData();
+            });
+            document.getElementById('deleteFoodwebPageBtn')?.addEventListener('click', () => {
+                if(fwPagesData.length <= 1) { fwNodes=[]; fwEdges=[]; applyFwPageData(); saveFoodwebData(); return; }
+                fwPagesData.splice(currentFwPage, 1);
+                if(currentFwPage >= fwPagesData.length) currentFwPage = fwPagesData.length - 1;
+                applyFwPageData();
+                saveFoodwebData();
+            });
 
             window.resizeFwCanvas = function() {
                 if(fwCanvas.parentElement.clientWidth === 0) return;
@@ -2180,15 +2788,61 @@
             const dkListContainer = document.getElementById('dkListContainer');
             const addDkStepBtn = document.getElementById('addDkStepBtn');
             const clearDkBtn = document.getElementById('clearDkBtn');
+            
+            let dkPagesData = [];
+            let currentDkPage = 0;
+            const dkPageLabel = document.getElementById('DkPageLabel');
+            const dkTotalLabel = document.getElementById('DkTotalPagesLabel');
             let dkSteps = [];
 
             window.loadDkData = function() {
-                dkSteps = JSON.parse(localStorage.getItem(getStorageKey('learningDkSteps'))) || [];
-                renderDk();
+                try {
+                    dkPagesData = JSON.parse(localStorage.getItem(getStorageKey('learningDkPages'))) || [];
+                    if(!Array.isArray(dkPagesData)) throw new Error();
+                } catch(e) {
+                    try {
+                        let oldData = JSON.parse(localStorage.getItem(getStorageKey('learningDkSteps')));
+                        if(oldData && Array.isArray(oldData)) dkPagesData = [oldData];
+                        else dkPagesData = [];
+                    } catch(ex) { dkPagesData = []; }
+                }
+                if(dkPagesData.length === 0) dkPagesData.push([]);
+                currentDkPage = 0;
+                applyDkPageData();
             };
-            function saveDkData() {
-                localStorage.setItem(getStorageKey('learningDkSteps'), JSON.stringify(dkSteps));
+
+            function applyDkPageData() {
+                dkSteps = dkPagesData[currentDkPage] || [];
+                if(dkPageLabel) dkPageLabel.innerText = currentDkPage + 1;
+                if(dkTotalLabel) dkTotalLabel.innerText = Math.max(1, dkPagesData.length);
+                renderDk();
             }
+
+            function saveDkData() {
+                dkPagesData[currentDkPage] = dkSteps;
+                localStorage.setItem(getStorageKey('learningDkPages'), JSON.stringify(dkPagesData));
+            }
+
+            document.getElementById('prevDkPageBtn')?.addEventListener('click', () => {
+                if(currentDkPage > 0) { saveDkData(); currentDkPage--; applyDkPageData(); }
+            });
+            document.getElementById('nextDkPageBtn')?.addEventListener('click', () => {
+                if(currentDkPage < dkPagesData.length - 1) { saveDkData(); currentDkPage++; applyDkPageData(); }
+            });
+            document.getElementById('addDkPageBtn')?.addEventListener('click', () => {
+                saveDkData();
+                dkPagesData.splice(currentDkPage + 1, 0, []);
+                currentDkPage++;
+                applyDkPageData();
+                saveDkData();
+            });
+            document.getElementById('deleteDkPageBtn')?.addEventListener('click', () => {
+                if(dkPagesData.length <= 1) { dkSteps=[]; applyDkPageData(); saveDkData(); return; }
+                dkPagesData.splice(currentDkPage, 1);
+                if(currentDkPage >= dkPagesData.length) currentDkPage = dkPagesData.length - 1;
+                applyDkPageData();
+                saveDkData();
+            });
 
             function renderDk() {
                 dkListContainer.innerHTML = '';
@@ -2257,6 +2911,1323 @@
                 }
             });
 
+            // --- Extra Hubs Logic ---
+            const extraHubsList = document.getElementById('extraHubsList');
+            const addExtraHubBtn = document.getElementById('addExtraHubBtn');
+            const extraHubInput = document.getElementById('extraHubInput');
+            let extraHubs = [];
+
+            window.loadExtraHubs = function() {
+                try {
+                    extraHubs = JSON.parse(localStorage.getItem('learningExtraHubs')) || [
+                        {id: 1, name: 'Home Learning'},
+                        {id: 2, name: 'Extracurriculars'}
+                    ];
+                } catch(e) {
+                    extraHubs = [{id: 1, name: 'Home Learning'}, {id: 2, name: 'Extracurriculars'}];
+                }
+                renderExtraHubs();
+            }
+
+            function saveExtraHubs() {
+                localStorage.setItem('learningExtraHubs', JSON.stringify(extraHubs));
+            }
+
+            function renderExtraHubs() {
+                if(!extraHubsList) return;
+                extraHubsList.innerHTML = '';
+                extraHubs.forEach(hub => {
+                    const el = document.createElement('div');
+                    el.className = 'link-item';
+                    el.style.marginBottom = '0';
+                    el.style.cursor = 'pointer';
+                    el.innerHTML = `
+                        <div class="link-icon-bg" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-3);">
+                            <i class="fa-solid fa-shapes"></i>
+                        </div>
+                        <div class="link-info" style="flex-grow: 1; overflow: hidden;">
+                            <span class="link-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; display: block;">${hub.name}</span>
+                            <span class="link-url">Hub Space</span>
+                        </div>
+                        <button class="delete-btn del-extrahub" data-id="${hub.id}" style="position:relative; z-index:10; color: var(--text-muted); opacity: 0.5;">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    `;
+                    el.querySelector('.del-extrahub').addEventListener('mouseenter', function() { this.style.opacity = '1'; this.style.color = '#ef4444'; });
+                    el.querySelector('.del-extrahub').addEventListener('mouseleave', function() { this.style.opacity = '0.5'; this.style.color = 'var(--text-muted)'; });
+                    
+                    el.addEventListener('click', (e) => {
+                        if(e.target.closest('.del-extrahub')) return;
+                        loadContext(hub.name);
+                    });
+                    extraHubsList.appendChild(el);
+                });
+
+                document.querySelectorAll('.del-extrahub').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        extraHubs = extraHubs.filter(h => h.id !== Number(btn.dataset.id));
+                        saveExtraHubs();
+                        renderExtraHubs();
+                    });
+                });
+            }
+
+            if(addExtraHubBtn) {
+                addExtraHubBtn.addEventListener('click', () => {
+                    const name = extraHubInput.value.trim();
+                    if(name) {
+                        extraHubs.push({id: Date.now(), name});
+                        extraHubInput.value = '';
+                        saveExtraHubs();
+                        renderExtraHubs();
+                    }
+                });
+                extraHubInput.addEventListener('keypress', (e) => {
+                    if(e.key === 'Enter') addExtraHubBtn.click();
+                });
+            }
+
+            // --- Advanced Mode Toggle ---
+            const advancedToggleBtn = document.getElementById('advancedModeToggle');
+            function applyAdvancedModeState() {
+                const isAdv = localStorage.getItem('learningAdvancedMode') === '1';
+                if(advancedToggleBtn) {
+                    advancedToggleBtn.style.color = isAdv ? '#eab308' : 'var(--text-muted)';
+                    advancedToggleBtn.style.textShadow = isAdv ? '0 0 10px rgba(234, 179, 8, 0.5)' : 'none';
+                    advancedToggleBtn.style.borderColor = isAdv ? 'rgba(234, 179, 8, 0.5)' : 'rgba(255,255,255,0.2)';
+                }
+                if(typeof window.applyWidgetSettings === 'function') window.applyWidgetSettings();
+            }
+            if(advancedToggleBtn) {
+                advancedToggleBtn.addEventListener('click', () => {
+                    const isAdv = localStorage.getItem('learningAdvancedMode') === '1';
+                    localStorage.setItem('learningAdvancedMode', isAdv ? '0' : '1');
+                    if(isAdv) {
+                        let settings = JSON.parse(localStorage.getItem(`widgets_${currentContext}`)) || {};
+                        settings['Kanban'] = false;
+                        settings['Pomodoro'] = false;
+                        settings['Goals'] = false;
+                        settings['Mindmap'] = false;
+                        settings['Cipher'] = false;
+                        localStorage.setItem(`widgets_${currentContext}`, JSON.stringify(settings));
+                    }
+                    applyAdvancedModeState();
+                });
+                applyAdvancedModeState();
+            }
+
+            // --- Kanban Logic ---
+            let kbTasks = { 'todo': [], 'doing': [], 'done': [] };
+            const kbColTodo = document.getElementById('kbColTodo');
+            const kbColDoing = document.getElementById('kbColDoing');
+            const kbColDone = document.getElementById('kbColDone');
+            const kbInput = document.getElementById('kbTaskInput');
+
+            window.loadKanban = function() {
+                try { kbTasks = JSON.parse(localStorage.getItem(getStorageKey('learningKanban'))) || { 'todo': [], 'doing': [], 'done': [] }; }
+                catch(e) { kbTasks = { 'todo': [], 'doing': [], 'done': [] }; }
+                renderKanban();
+            }
+            function saveKanban() { localStorage.setItem(getStorageKey('learningKanban'), JSON.stringify(kbTasks)); }
+
+            function renderKanban() {
+                if(!kbColTodo) return;
+                function createKbItem(text, listName, idx) {
+                    const d = document.createElement('div');
+                    d.style = "background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 0.5rem; font-size: 0.8rem; display: flex; flex-direction: column; gap: 0.3rem;";
+                    d.innerHTML = `<span style="word-break: break-word;">${text}</span><div style="display:flex; justify-content: space-between; font-size: 0.7rem; margin-top: 0.2rem;">
+                        <button class="move-left" data-list="${listName}" data-idx="${idx}" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer;"><i class="fa-solid fa-arrow-left"></i></button>
+                        <button class="del-kb" data-list="${listName}" data-idx="${idx}" style="background:transparent; border:none; color:#ef4444; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                        <button class="move-right" data-list="${listName}" data-idx="${idx}" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer;"><i class="fa-solid fa-arrow-right"></i></button>
+                    </div>`;
+                    return d;
+                }
+                const drawCol = (listName, el) => {
+                    el.innerHTML = '';
+                    if(kbTasks[listName]) kbTasks[listName].forEach((t, i) => el.appendChild(createKbItem(t, listName, i)));
+                };
+                drawCol('todo', kbColTodo);
+                drawCol('doing', kbColDoing);
+                drawCol('done', kbColDone);
+                
+                document.querySelectorAll('.move-left, .move-right, .del-kb').forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        const ln = e.currentTarget.dataset.list;
+                        const idx = parseInt(e.currentTarget.dataset.idx);
+                        const states = ['todo', 'doing', 'done'];
+                        const item = kbTasks[ln][idx];
+                        if (e.currentTarget.classList.contains('del-kb')) {
+                            kbTasks[ln].splice(idx, 1);
+                        } else if (e.currentTarget.classList.contains('move-left')) {
+                            const newLn = states[states.indexOf(ln)-1];
+                            if(newLn) { kbTasks[ln].splice(idx, 1); kbTasks[newLn].push(item); }
+                        } else if (e.currentTarget.classList.contains('move-right')) {
+                            const newLn = states[states.indexOf(ln)+1];
+                            if(newLn) { kbTasks[ln].splice(idx, 1); kbTasks[newLn].push(item); }
+                        }
+                        saveKanban(); renderKanban();
+                    });
+                });
+            }
+
+            document.getElementById('addKbTaskBtn')?.addEventListener('click', () => {
+                const t = kbInput.value.trim();
+                if(t) { if(!kbTasks.todo) kbTasks.todo=[]; kbTasks.todo.push(t); kbInput.value = ''; saveKanban(); renderKanban(); }
+            });
+            kbInput?.addEventListener('keypress', (e) => { if(e.key==='Enter') document.getElementById('addKbTaskBtn').click(); });
+
+            // --- Pro Focus Timer + Queue Logic ---
+            let pomoTime = 25 * 60;
+            let pomoRemaining = pomoTime;
+            let pomoInterval = null;
+            let pomoIsRunning = false;
+            let pomoCurrentMode = 25;
+
+            // Queue state
+            let pomoQueue = [];         // [{label, mins}]
+            let pomoQueueIdx = -1;      // -1 = not in queue mode
+            let pomoTotalTime = 0;      // for current entry
+            let pomoSessionCount = 0;
+
+            const pomoDisplay = document.getElementById('pomodoroDisplay');
+            const startPomoBtn = document.getElementById('startPomodoroBtn');
+            const resetPomoBtn = document.getElementById('resetPomodoroBtn');
+            const pomoSkipBtn = document.getElementById('pomoSkipBtn');
+            const pomoProgressBar = document.getElementById('pomoProgressBar');
+            const pomoActiveLabel = document.getElementById('pomoActiveLabel');
+            const pomoSessionDots = document.getElementById('pomoSessionDots');
+            const modeBtns = document.querySelectorAll('.pomodoro-mode-btn');
+
+            // Queue UI elements
+            const pomoQueuePanel = document.getElementById('pomoQueuePanel');
+            const pomoQueueToggleBtn = document.getElementById('pomoQueueToggleBtn');
+            const pomoQueueAddBtn = document.getElementById('pomoQueueAddBtn');
+            const pomoQueueNameInput = document.getElementById('pomoQueueNameInput');
+            const pomoQueueMinsInput = document.getElementById('pomoQueueMinsInput');
+            const pomoQueueList = document.getElementById('pomoQueueList');
+            const pomoQueueClearBtn = document.getElementById('pomoQueueClearBtn');
+            const pomoQueueLoopChk = document.getElementById('pomoQueueLoopChk');
+            const pomoRunQueueBtn = document.getElementById('pomoRunQueueBtn');
+
+            // Load queue from storage
+            function loadPomoQueue() {
+                try { pomoQueue = JSON.parse(localStorage.getItem('pomoTimerQueue')) || []; } catch(e) { pomoQueue = []; }
+                renderPomoQueue();
+            }
+            function savePomoQueue() { localStorage.setItem('pomoTimerQueue', JSON.stringify(pomoQueue)); }
+
+            function renderPomoQueue() {
+                if(!pomoQueueList) return;
+                pomoQueueList.innerHTML = '';
+                if(pomoQueue.length === 0) {
+                    pomoQueueList.innerHTML = '<div style="color: var(--text-muted); font-size: 0.78rem; text-align: center; padding: 0.8rem 0;">Queue is empty. Add entries above!</div>';
+                    return;
+                }
+                pomoQueue.forEach((item, idx) => {
+                    const isActive = pomoQueueIdx === idx && pomoIsRunning;
+                    const el = document.createElement('div');
+                    el.style.cssText = `display: flex; align-items: center; gap: 0.5rem; background: ${isActive ? 'rgba(245,158,11,0.15)' : 'rgba(0,0,0,0.2)'}; border: 1px solid ${isActive ? 'rgba(245,158,11,0.5)' : 'rgba(255,255,255,0.07)'}; border-radius: 8px; padding: 0.5rem 0.7rem; font-size: 0.8rem; transition: all 0.2s;`;
+                    el.innerHTML = `
+                        <span style="flex:1; font-weight: ${isActive ? '700' : '400'}; color: ${isActive ? '#f59e0b' : 'var(--text-main)'}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            ${isActive ? '<i class="fa-solid fa-caret-right" style="margin-right:0.3rem;"></i>' : ''}
+                            ${idx+1}. ${item.label}
+                        </span>
+                        <span style="color: var(--text-muted); flex-shrink:0; font-variant-numeric: tabular-nums;">${item.mins}m</span>
+                        <div style="display:flex; gap:0.2rem;">
+                            <button class="pq-up" data-idx="${idx}" title="Move up" style="background:transparent; border:none; color:rgba(255,255,255,0.3); cursor:pointer; padding:0.1rem 0.3rem; font-size:0.75rem; border-radius:4px; transition: color 0.2s;"><i class="fa-solid fa-chevron-up"></i></button>
+                            <button class="pq-down" data-idx="${idx}" title="Move down" style="background:transparent; border:none; color:rgba(255,255,255,0.3); cursor:pointer; padding:0.1rem 0.3rem; font-size:0.75rem; border-radius:4px; transition: color 0.2s;"><i class="fa-solid fa-chevron-down"></i></button>
+                            <button class="pq-del" data-idx="${idx}" title="Remove" style="background:transparent; border:none; color:rgba(255,255,255,0.2); cursor:pointer; padding:0.1rem 0.3rem; font-size:0.75rem; border-radius:4px; transition: color 0.2s;"><i class="fa-solid fa-times"></i></button>
+                        </div>
+                    `;
+                    pomoQueueList.appendChild(el);
+                });
+                // Attach listeners
+                pomoQueueList.querySelectorAll('.pq-up').forEach(b => b.addEventListener('click', () => {
+                    const i = parseInt(b.dataset.idx);
+                    if(i > 0) { [pomoQueue[i-1], pomoQueue[i]] = [pomoQueue[i], pomoQueue[i-1]]; savePomoQueue(); renderPomoQueue(); }
+                }));
+                pomoQueueList.querySelectorAll('.pq-down').forEach(b => b.addEventListener('click', () => {
+                    const i = parseInt(b.dataset.idx);
+                    if(i < pomoQueue.length-1) { [pomoQueue[i], pomoQueue[i+1]] = [pomoQueue[i+1], pomoQueue[i]]; savePomoQueue(); renderPomoQueue(); }
+                }));
+                pomoQueueList.querySelectorAll('.pq-del').forEach(b => b.addEventListener('click', () => {
+                    pomoQueue.splice(parseInt(b.dataset.idx), 1);
+                    savePomoQueue(); renderPomoQueue();
+                }));
+                // Hover effects
+                pomoQueueList.querySelectorAll('.pq-up, .pq-down').forEach(b => {
+                    b.addEventListener('mouseenter', () => b.style.color = '#f59e0b');
+                    b.addEventListener('mouseleave', () => b.style.color = 'rgba(255,255,255,0.3)');
+                });
+                pomoQueueList.querySelectorAll('.pq-del').forEach(b => {
+                    b.addEventListener('mouseenter', () => b.style.color = '#ef4444');
+                    b.addEventListener('mouseleave', () => b.style.color = 'rgba(255,255,255,0.2)');
+                });
+            }
+
+            if(pomoQueueToggleBtn) {
+                pomoQueueToggleBtn.addEventListener('click', () => {
+                    const p = document.getElementById('pomoQueuePanel');
+                    if(!p) return;
+                    const vis = p.style.display !== 'none';
+                    p.style.display = vis ? 'none' : 'flex';
+                    pomoQueueToggleBtn.style.background = vis ? 'transparent' : 'rgba(245,158,11,0.15)';
+                });
+            }
+
+            if(pomoQueueAddBtn) {
+                function addPomoQueueEntry() {
+                    const label = pomoQueueNameInput?.value.trim() || 'Timer';
+                    const mins = Math.max(1, parseInt(pomoQueueMinsInput?.value) || 25);
+                    pomoQueue.push({ label, mins });
+                    if(pomoQueueNameInput) pomoQueueNameInput.value = '';
+                    if(pomoQueueMinsInput) pomoQueueMinsInput.value = '';
+                    savePomoQueue();
+                    renderPomoQueue();
+                }
+                pomoQueueAddBtn.addEventListener('click', addPomoQueueEntry);
+                pomoQueueMinsInput?.addEventListener('keypress', e => { if(e.key === 'Enter') addPomoQueueEntry(); });
+                pomoQueueNameInput?.addEventListener('keypress', e => { if(e.key === 'Enter') addPomoQueueEntry(); });
+            }
+
+            if(pomoQueueClearBtn) {
+                pomoQueueClearBtn.addEventListener('click', () => {
+                    if(pomoQueue.length === 0 || confirm('Clear the entire timer queue?')) {
+                        pomoQueue = []; pomoQueueIdx = -1;
+                        pomoStopTimer();
+                        savePomoQueue(); renderPomoQueue();
+                    }
+                });
+            }
+
+            function updatePomoDisplay() {
+                if(!pomoDisplay) return;
+                const m = Math.floor(pomoRemaining / 60);
+                const s = pomoRemaining % 60;
+                pomoDisplay.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                if(pomoIsRunning) document.title = `(${pomoDisplay.innerText}) Learning Space`;
+                else document.title = 'Learning Space';
+                // Progress bar
+                const pct = pomoTotalTime > 0 ? ((pomoTotalTime - pomoRemaining) / pomoTotalTime) * 100 : 0;
+                if(pomoProgressBar) pomoProgressBar.style.width = `${pct}%`;
+            }
+
+            function pomoClearTimer() {
+                clearInterval(pomoInterval); pomoInterval = null;
+            }
+
+            function pomoStopTimer() {
+                pomoClearTimer();
+                pomoIsRunning = false;
+                if(startPomoBtn) startPomoBtn.innerHTML = '<i class="fa-solid fa-play" style="margin-right: 0.5rem;"></i> Start';
+                updatePomoDisplay();
+            }
+
+            function pomoLoadEntry(idx) {
+                if(idx < 0 || idx >= pomoQueue.length) return false;
+                const entry = pomoQueue[idx];
+                pomoQueueIdx = idx;
+                pomoRemaining = entry.mins * 60;
+                pomoTotalTime = pomoRemaining;
+                pomoCurrentMode = entry.mins;
+                if(pomoActiveLabel) pomoActiveLabel.innerText = `▶ ${entry.label} (${entry.mins}m)`;
+                updatePomoDisplay();
+                renderPomoQueue();
+                return true;
+            }
+
+            function pomoAdvanceQueue() {
+                const nextIdx = pomoQueueIdx + 1;
+                if(nextIdx < pomoQueue.length) {
+                    pomoLoadEntry(nextIdx);
+                    // auto-start next
+                    pomoIsRunning = true;
+                    if(startPomoBtn) startPomoBtn.innerHTML = '<i class="fa-solid fa-pause" style="margin-right: 0.5rem;"></i> Pause';
+                    pomoInterval = setInterval(pomoTick, 1000);
+                } else {
+                    // Queue finished
+                    if(pomoQueueLoopChk?.checked && pomoQueue.length > 0) {
+                        pomoLoadEntry(0);
+                        pomoIsRunning = true;
+                        if(startPomoBtn) startPomoBtn.innerHTML = '<i class="fa-solid fa-pause" style="margin-right: 0.5rem;"></i> Pause';
+                        pomoInterval = setInterval(pomoTick, 1000);
+                        mmShowHint && mmShowHint('Queue looping!');
+                    } else {
+                        pomoQueueIdx = -1;
+                        if(pomoActiveLabel) pomoActiveLabel.innerText = '';
+                        pomoClearTimer();
+                        pomoIsRunning = false;
+                        if(startPomoBtn) startPomoBtn.innerHTML = '<i class="fa-solid fa-play" style="margin-right: 0.5rem;"></i> Start';
+                        alert('Timer queue complete! Great work!');
+                        renderPomoQueue();
+                        updatePomoDisplay();
+                    }
+                }
+            }
+
+            function updateSessionDots() {
+                if(!pomoSessionDots) return;
+                pomoSessionDots.innerHTML = '';
+                for(let i = 0; i < 4; i++) {
+                    const d = document.createElement('div');
+                    d.style.cssText = `width:10px; height:10px; border-radius:50%; background:${i < pomoSessionCount ? '#ef4444' : 'rgba(255,255,255,0.1)'}; transition: background 0.3s;`;
+                    pomoSessionDots.appendChild(d);
+                }
+            }
+
+            function pomoTick() {
+                pomoRemaining--;
+                updatePomoDisplay();
+                if(pomoRemaining <= 0) {
+                    pomoClearTimer();
+                    pomoIsRunning = false;
+                    if(startPomoBtn) startPomoBtn.innerHTML = '<i class="fa-solid fa-play" style="margin-right: 0.5rem;"></i> Start';
+                    // Stats
+                    let sess = parseInt(localStorage.getItem('stat_sessions') || '0');
+                    let min = parseInt(localStorage.getItem('stat_total_min') || '0');
+                    localStorage.setItem('stat_sessions', (sess + 1).toString());
+                    localStorage.setItem('stat_total_min', (min + Math.round(pomoCurrentMode)).toString());
+                    if(typeof updateStatsDisplay === 'function') updateStatsDisplay();
+                    pomoSessionCount = (pomoSessionCount + 1) % 5;
+                    updateSessionDots();
+
+                    if(pomoQueueIdx >= 0) {
+                        // Queue mode: beep and advance
+                        new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFfmt...').play?.();
+                        if(pomoQueue.length > 1) {
+                            const msg = pomoQueueIdx + 1 < pomoQueue.length
+                                ? `"${pomoQueue[pomoQueueIdx].label}" done! Starting "${pomoQueue[pomoQueueIdx+1].label}"...`
+                                : `"${pomoQueue[pomoQueueIdx].label}" done! That's the last one.`;
+                            // Non-blocking notify
+                            const notif = document.createElement('div');
+                            notif.style.cssText = 'position:fixed; bottom:2rem; right:2rem; background: rgba(245,158,11,0.95); color:#0f172a; font-weight:700; padding:1rem 1.5rem; border-radius:12px; z-index:99999; font-family:Outfit,sans-serif; box-shadow:0 8px 32px rgba(0,0,0,0.4); animation: slideIn 0.3s ease-out;';
+                            notif.innerText = '⏱ ' + msg;
+                            document.body.appendChild(notif);
+                            setTimeout(() => notif.remove(), 3500);
+                        }
+                        setTimeout(() => pomoAdvanceQueue(), 800);
+                    } else {
+                        alert(`Time is up! Finished ${pomoCurrentMode} minutes.`);
+                        pomoRemaining = pomoTotalTime || pomoTime;
+                        updatePomoDisplay();
+                    }
+                }
+            }
+
+            modeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modeBtns.forEach(b => { b.classList.remove('active'); b.style.background = 'rgba(255,255,255,0.05)'; });
+                    btn.classList.add('active');
+                    btn.style.background = 'var(--accent-1)';
+                    pomoCurrentMode = parseInt(btn.dataset.time);
+                    pomoTime = pomoCurrentMode * 60;
+                    pomoRemaining = pomoTime;
+                    pomoTotalTime = pomoTime;
+                    pomoIsRunning = false;
+                    pomoQueueIdx = -1;
+                    if(pomoActiveLabel) pomoActiveLabel.innerText = '';
+                    pomoClearTimer();
+                    if(startPomoBtn) startPomoBtn.innerHTML = '<i class="fa-solid fa-play" style="margin-right: 0.5rem;"></i> Start';
+                    updatePomoDisplay();
+                    renderPomoQueue();
+                });
+            });
+
+            if(startPomoBtn) {
+                startPomoBtn.addEventListener('click', () => {
+                    if(pomoIsRunning) {
+                        pomoClearTimer();
+                        pomoIsRunning = false;
+                        startPomoBtn.innerHTML = '<i class="fa-solid fa-play" style="margin-right: 0.5rem;"></i> Start';
+                        updatePomoDisplay();
+                    } else {
+                        if(pomoTotalTime === 0) { pomoTotalTime = pomoRemaining; }
+                        pomoIsRunning = true;
+                        startPomoBtn.innerHTML = '<i class="fa-solid fa-pause" style="margin-right: 0.5rem;"></i> Pause';
+                        pomoInterval = setInterval(pomoTick, 1000);
+                    }
+                });
+            }
+
+            if(resetPomoBtn) {
+                resetPomoBtn.addEventListener('click', () => {
+                    pomoClearTimer();
+                    pomoIsRunning = false;
+                    pomoRemaining = pomoTotalTime || pomoTime;
+                    if(pomoQueueIdx >= 0) pomoLoadEntry(pomoQueueIdx);
+                    if(startPomoBtn) startPomoBtn.innerHTML = '<i class="fa-solid fa-play" style="margin-right: 0.5rem;"></i> Start';
+                    updatePomoDisplay();
+                });
+            }
+
+            if(pomoSkipBtn) {
+                pomoSkipBtn.addEventListener('click', () => {
+                    if(pomoQueueIdx >= 0) {
+                        pomoClearTimer();
+                        pomoIsRunning = false;
+                        pomoAdvanceQueue();
+                    } else {
+                        // Not in queue mode — nothing to skip
+                    }
+                });
+            }
+
+            if(pomoRunQueueBtn) {
+                pomoRunQueueBtn.addEventListener('click', () => {
+                    if(pomoQueue.length === 0) { alert('Add some timers to the queue first!'); return; }
+                    pomoClearTimer();
+                    pomoIsRunning = false;
+                    if(startPomoBtn) startPomoBtn.innerHTML = '<i class="fa-solid fa-play" style="margin-right: 0.5rem;"></i> Start';
+                    if(pomoLoadEntry(0)) {
+                        // Auto start
+                        pomoIsRunning = true;
+                        if(startPomoBtn) startPomoBtn.innerHTML = '<i class="fa-solid fa-pause" style="margin-right: 0.5rem;"></i> Pause';
+                        pomoInterval = setInterval(pomoTick, 1000);
+                    }
+                });
+            }
+
+            window.loadPomodoro = function() { loadPomoQueue(); updatePomoDisplay(); updateSessionDots(); };
+
+            // --- Study Goals Logic ---
+            let studyGoals = [];
+
+            window.loadGoals = function() {
+                try { studyGoals = JSON.parse(localStorage.getItem(getStorageKey('learningGoals'))) || []; }
+                catch(e) { studyGoals = []; }
+                renderGoals();
+            };
+
+            function saveGoals() {
+                localStorage.setItem(getStorageKey('learningGoals'), JSON.stringify(studyGoals));
+            }
+
+            function renderGoals() {
+                const list = document.getElementById('goalsList');
+                const bar = document.getElementById('goalsProgressBar');
+                const label = document.getElementById('goalsProgressLabel');
+                if(!list) return;
+                list.innerHTML = '';
+                const total = studyGoals.length;
+                const done = studyGoals.filter(g => g.done).length;
+                if(bar) bar.style.width = total ? `${Math.round((done/total)*100)}%` : '0%';
+                if(label) label.innerText = `${done} / ${total}`;
+                if(total > 0 && done === total) {
+                    confetti({ particleCount: 80, spread: 80, origin: { y: 0.6 }, colors: ['#10b981','#34d399','#6ee7b7'] });
+                }
+                studyGoals.forEach((g, i) => {
+                    const row = document.createElement('div');
+                    row.style = `display: flex; align-items: center; gap: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 0.7rem 1rem; transition: all 0.2s;`;
+                    row.innerHTML = `
+                        <div class="todo-checkbox" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid ${g.done ? '#10b981' : 'rgba(255,255,255,0.3)'}; background: ${g.done ? '#10b981' : 'transparent'}; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                            ${g.done ? '<i class="fa-solid fa-check" style="font-size:0.6rem; color:white;"></i>' : ''}
+                        </div>
+                        <span style="flex: 1; font-size: 0.9rem; ${g.done ? 'text-decoration: line-through; opacity: 0.5;' : ''}">${g.text}</span>
+                        <button data-idx="${i}" class="del-goal" style="background: transparent; border: none; color: rgba(255,255,255,0.3); cursor: pointer; padding: 0; font-size: 0.85rem; transition: color 0.2s;"><i class="fa-solid fa-times"></i></button>
+                    `;
+                    row.querySelector('.todo-checkbox').addEventListener('click', () => {
+                        studyGoals[i].done = !studyGoals[i].done;
+                        saveGoals(); renderGoals();
+                    });
+                    row.querySelector('.del-goal').addEventListener('click', () => {
+                        studyGoals.splice(i, 1);
+                        saveGoals(); renderGoals();
+                    });
+                    list.appendChild(row);
+                });
+            }
+
+            document.getElementById('addGoalBtn')?.addEventListener('click', () => {
+                const inp = document.getElementById('goalInput');
+                const t = inp?.value.trim();
+                if(t) { studyGoals.push({ text: t, done: false }); inp.value = ''; saveGoals(); renderGoals(); }
+            });
+            document.getElementById('goalInput')?.addEventListener('keypress', e => { if(e.key === 'Enter') document.getElementById('addGoalBtn').click(); });
+            document.getElementById('clearDoneGoalsBtn')?.addEventListener('click', () => {
+                studyGoals = studyGoals.filter(g => !g.done);
+                saveGoals(); renderGoals();
+            });
+
+            // --- Mind Map Logic (pro rewrite) ---
+            const MM_NODE_R = 38;
+            const MM_COLORS = ['#a855f7','#3b82f6','#10b981','#f59e0b','#ef4444','#ec4899','#0ea5e9'];
+
+            const mmCanvas = document.getElementById('mmCanvas');
+            const mmCtx = mmCanvas ? mmCanvas.getContext('2d') : null;
+            const mmRenameInput = document.getElementById('mmRenameInput');
+
+            let mmPages = [{ nodes: [], edges: [] }];
+            let mmCurrentPage = 0;
+            function mmData() { return mmPages[mmCurrentPage]; }
+
+            // Interaction state
+            let mmDragging = null;
+            let mmDragOffset = { x: 0, y: 0 };
+            let mmSelected = null;
+            let mmSelEdge = null;
+            let mmHintTimer = null;
+            let mmConnPreview = null;
+
+            // Zoom + pan
+            let mmScale = 1;
+            let mmPan = { x: 0, y: 0 };
+            let mmPanning = false;
+            let mmPanStart = { x: 0, y: 0 };
+            let mmPanOrigin = { x: 0, y: 0 };
+
+            // Active toolbar selections
+            let mmActiveColor = '#a855f7';
+            let mmActiveShape = 'rect';
+            let mmActiveLineStyle = 'solid';  // solid | dashed | dotted
+            let mmActiveArrow = 'none';        // none | forward | both
+
+            // Double-click rename state
+            let mmRenamingId = null;
+
+            function mmShowHint(msg) {
+                const el = document.getElementById('mmHint');
+                if(!el) return;
+                el.innerText = msg;
+                el.style.opacity = '1';
+                clearTimeout(mmHintTimer);
+                mmHintTimer = setTimeout(() => { el.style.opacity = '0'; }, 2800);
+            }
+
+            // ---- Zoom ----
+            function mmUpdateZoomLabel() {
+                const lbl = document.getElementById('mmZoomLabel');
+                if(lbl) lbl.innerText = Math.round(mmScale * 100) + '%';
+            }
+
+            document.getElementById('mmZoomInBtn')?.addEventListener('click', () => {
+                mmScale = Math.min(3, mmScale + 0.15);
+                mmUpdateZoomLabel(); mmRender();
+            });
+            document.getElementById('mmZoomOutBtn')?.addEventListener('click', () => {
+                mmScale = Math.max(0.2, mmScale - 0.15);
+                mmUpdateZoomLabel(); mmRender();
+            });
+            document.getElementById('mmZoomResetBtn')?.addEventListener('click', () => {
+                mmScale = 1; mmPan = { x: 0, y: 0 };
+                mmUpdateZoomLabel(); mmRender();
+            });
+
+            // ---- Color buttons ----
+            document.querySelectorAll('.mm-color-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    mmActiveColor = btn.dataset.color;
+                    document.querySelectorAll('.mm-color-btn').forEach(b => b.style.border = '2px solid transparent');
+                    btn.style.border = '2px solid white';
+                    btn.style.transform = 'scale(1.3)';
+                    setTimeout(() => btn.style.transform = 'scale(1)', 200);
+                    // If a node is selected, change its color
+                    if(mmSelected !== null) {
+                        const node = mmData().nodes.find(n => n.id === mmSelected);
+                        if(node) { node.color = mmActiveColor; mmSave(); mmRender(); }
+                    }
+                });
+            });
+
+            // ---- Shape buttons ----
+            document.querySelectorAll('.mm-shape-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    mmActiveShape = btn.dataset.shape;
+                    document.querySelectorAll('.mm-shape-btn').forEach(b => {
+                        b.style.background = 'rgba(255,255,255,0.07)';
+                        b.style.borderColor = 'rgba(255,255,255,0.15)';
+                        b.style.color = 'white';
+                    });
+                    btn.style.background = 'rgba(168,85,247,0.25)';
+                    btn.style.borderColor = '#a855f7';
+                    btn.style.color = '#a855f7';
+                    // Apply to selected node
+                    if(mmSelected !== null) {
+                        const node = mmData().nodes.find(n => n.id === mmSelected);
+                        if(node) { node.shape = mmActiveShape; mmSave(); mmRender(); }
+                    }
+                });
+            });
+
+            // ---- Line style buttons ----
+            function mmSetLineStyleBtn(val) {
+                document.querySelectorAll('.mm-linestyle-btn').forEach(b => {
+                    const active = b.dataset.linestyle === val;
+                    b.style.background = active ? 'rgba(14,165,233,0.25)' : 'rgba(255,255,255,0.07)';
+                    b.style.borderColor = active ? '#0ea5e9' : 'rgba(255,255,255,0.15)';
+                    b.style.color = active ? '#0ea5e9' : 'white';
+                });
+            }
+            document.querySelectorAll('.mm-linestyle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    mmActiveLineStyle = btn.dataset.linestyle;
+                    mmSetLineStyleBtn(mmActiveLineStyle);
+                    // Apply to selected edge
+                    if(mmSelEdge !== null) {
+                        mmData().edges[mmSelEdge].style = mmActiveLineStyle;
+                        mmSave(); mmRender();
+                    }
+                });
+            });
+            mmSetLineStyleBtn('solid');
+
+            // ---- Arrow style buttons ----
+            function mmSetArrowBtn(val) {
+                document.querySelectorAll('.mm-arrow-btn').forEach(b => {
+                    const active = b.dataset.arrow === val;
+                    b.style.background = active ? 'rgba(236,72,153,0.25)' : 'rgba(255,255,255,0.07)';
+                    b.style.borderColor = active ? '#ec4899' : 'rgba(255,255,255,0.15)';
+                    b.style.color = active ? '#ec4899' : 'white';
+                });
+            }
+            document.querySelectorAll('.mm-arrow-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    mmActiveArrow = btn.dataset.arrow;
+                    mmSetArrowBtn(mmActiveArrow);
+                    // Apply to selected edge
+                    if(mmSelEdge !== null) {
+                        mmData().edges[mmSelEdge].arrow = mmActiveArrow;
+                        mmSave(); mmRender();
+                    }
+                });
+            });
+            mmSetArrowBtn('none');
+
+            // ---- Auto-layout ----
+            document.getElementById('mmAutoLayoutBtn')?.addEventListener('click', () => {
+                const d = mmData();
+                const n = d.nodes.length;
+                if(n === 0) { mmShowHint('No nodes to arrange!'); return; }
+                if(!mmCanvas) return;
+                const W = mmCanvas.width / mmScale, H = mmCanvas.height / mmScale;
+                const cx = W / 2, cy = H / 2;
+                if(n === 1) { d.nodes[0].x = cx; d.nodes[0].y = cy; }
+                else {
+                    const radius = Math.min(W, H) * 0.35;
+                    d.nodes.forEach((node, i) => {
+                        const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+                        node.x = cx + radius * Math.cos(angle);
+                        node.y = cy + radius * Math.sin(angle);
+                    });
+                }
+                mmSave(); mmRender();
+                mmShowHint('Nodes arranged in a circle!');
+            });
+
+            // ---- Export PNG ----
+            document.getElementById('mmExportBtn')?.addEventListener('click', () => {
+                if(!mmCanvas) return;
+                // Draw on an off-screen canvas with white-ish background
+                const off = document.createElement('canvas');
+                off.width = mmCanvas.width;
+                off.height = mmCanvas.height;
+                const offCtx = off.getContext('2d');
+                offCtx.fillStyle = '#0f172a';
+                offCtx.fillRect(0, 0, off.width, off.height);
+                offCtx.drawImage(mmCanvas, 0, 0);
+                const link = document.createElement('a');
+                link.download = `mindmap-page${mmCurrentPage+1}.png`;
+                link.href = off.toDataURL('image/png');
+                link.click();
+                mmShowHint('Mind map exported!');
+            });
+
+            // ---- Resize ----
+            function mmResize() {
+                if(!mmCanvas) return;
+                const rect = mmCanvas.parentElement.getBoundingClientRect();
+                mmCanvas.width = rect.width;
+                mmCanvas.height = rect.height;
+                mmRender();
+            }
+
+            // ---- Save & Load ----
+            function mmSave() {
+                localStorage.setItem(getStorageKey('learningMindmap'), JSON.stringify({ pages: mmPages, page: mmCurrentPage }));
+            }
+
+            function mmUpdatePageUI() {
+                const lbl = document.getElementById('mmPageLabel');
+                const tot = document.getElementById('mmTotalLabel');
+                if(lbl) lbl.innerText = mmCurrentPage + 1;
+                if(tot) tot.innerText = mmPages.length;
+            }
+
+            // ---- Transform helpers ----
+            function mmToWorld(cx, cy) {
+                return { x: (cx - mmPan.x) / mmScale, y: (cy - mmPan.y) / mmScale };
+            }
+
+            // ---- Draw ----
+            function mmDrawNodeShape(ctx, node, bw, bh, isSel) {
+                const shape = node.shape || 'rect';
+                ctx.beginPath();
+                if(shape === 'circle') {
+                    const r = Math.max(bw, bh) / 2;
+                    ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
+                } else if(shape === 'diamond') {
+                    const hw = bw / 2 + 6, hh = bh / 2 + 6;
+                    ctx.moveTo(node.x, node.y - hh);
+                    ctx.lineTo(node.x + hw, node.y);
+                    ctx.lineTo(node.x, node.y + hh);
+                    ctx.lineTo(node.x - hw, node.y);
+                    ctx.closePath();
+                } else {
+                    ctx.roundRect(node.x - bw/2, node.y - bh/2, bw, bh, 10);
+                }
+            }
+
+            function mmRender() {
+                if(!mmCtx || !mmCanvas) return;
+                const { nodes, edges } = mmData();
+                const W = mmCanvas.width, H = mmCanvas.height;
+                mmCtx.clearRect(0, 0, W, H);
+
+                mmCtx.save();
+                mmCtx.translate(mmPan.x, mmPan.y);
+                mmCtx.scale(mmScale, mmScale);
+
+                // Soft grid
+                const wW = W / mmScale, wH = H / mmScale;
+                const ox = -mmPan.x / mmScale, oy = -mmPan.y / mmScale;
+                mmCtx.strokeStyle = 'rgba(255,255,255,0.03)';
+                mmCtx.lineWidth = 1 / mmScale;
+                for(let x = Math.floor(ox/40)*40; x < ox + wW + 40; x += 40) { mmCtx.beginPath(); mmCtx.moveTo(x,oy); mmCtx.lineTo(x,oy+wH); mmCtx.stroke(); }
+                for(let y = Math.floor(oy/40)*40; y < oy + wH + 40; y += 40) { mmCtx.beginPath(); mmCtx.moveTo(ox,y); mmCtx.lineTo(ox+wW,y); mmCtx.stroke(); }
+
+                // ---- Arrowhead helper ----
+                function mmDrawArrow(ctx, fromX, fromY, toX, toY, color, lw) {
+                    const headLen = Math.max(10, 14) / mmScale;
+                    const angle = Math.atan2(toY - fromY, toX - fromX);
+                    ctx.save();
+                    ctx.strokeStyle = color;
+                    ctx.fillStyle = color;
+                    ctx.lineWidth = lw;
+                    ctx.setLineDash([]);
+                    ctx.beginPath();
+                    ctx.moveTo(toX, toY);
+                    ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI/6), toY - headLen * Math.sin(angle - Math.PI/6));
+                    ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI/6), toY - headLen * Math.sin(angle + Math.PI/6));
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // Edges
+                edges.forEach((e, ei) => {
+                    const a = nodes.find(n => n.id === e.from);
+                    const b = nodes.find(n => n.id === e.to);
+                    if(!a || !b) return;
+                    const isSelEdge = mmSelEdge === ei;
+                    const edgeStyle = e.style || 'solid';   // solid | dashed | dotted
+                    const edgeArrow = e.arrow || 'none';    // none | forward | both
+
+                    const grad = mmCtx.createLinearGradient(a.x, a.y, b.x, b.y);
+                    grad.addColorStop(0, a.color + 'cc');
+                    grad.addColorStop(1, b.color + 'cc');
+                    const lineColor = isSelEdge ? '#fbbf24' : grad;
+                    const lw = (isSelEdge ? 3 : 2) / mmScale;
+
+                    // Line dash pattern
+                    if(isSelEdge) {
+                        mmCtx.setLineDash([6/mmScale, 3/mmScale]);
+                    } else if(edgeStyle === 'dashed') {
+                        mmCtx.setLineDash([10/mmScale, 6/mmScale]);
+                    } else if(edgeStyle === 'dotted') {
+                        mmCtx.setLineDash([2/mmScale, 5/mmScale]);
+                    } else {
+                        mmCtx.setLineDash([]);
+                    }
+
+                    mmCtx.beginPath();
+                    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+                    mmCtx.moveTo(a.x, a.y);
+                    mmCtx.quadraticCurveTo(mx, my, b.x, b.y);
+                    mmCtx.strokeStyle = lineColor;
+                    mmCtx.lineWidth = lw;
+                    mmCtx.stroke();
+                    mmCtx.setLineDash([]);
+
+                    // Arrowheads — compute tangent at endpoint(s) of the quadratic bezier
+                    // Tangent at t=1: direction from control point to end
+                    if(edgeArrow === 'forward' || edgeArrow === 'both') {
+                        // Arrow at b (t=1): tangent = b - midpoint
+                        const arrowColor = isSelEdge ? '#fbbf24' : b.color + 'ee';
+                        mmDrawArrow(mmCtx, mx, my, b.x, b.y, arrowColor, lw);
+                    }
+                    if(edgeArrow === 'both') {
+                        // Arrow at a (t=0): tangent = a - midpoint (reversed)
+                        const arrowColor = isSelEdge ? '#fbbf24' : a.color + 'ee';
+                        mmDrawArrow(mmCtx, mx, my, a.x, a.y, arrowColor, lw);
+                    }
+
+                    // Edge label
+                    if(e.label) {
+                        mmCtx.save();
+                        const lx = (a.x + b.x)/2, ly = (a.y + b.y)/2;
+                        mmCtx.font = `${11/mmScale}px Inter, sans-serif`;
+                        mmCtx.fillStyle = 'rgba(255,255,255,0.7)';
+                        mmCtx.textAlign = 'center';
+                        mmCtx.textBaseline = 'middle';
+                        const tw = mmCtx.measureText(e.label).width;
+                        mmCtx.fillStyle = 'rgba(15,23,42,0.85)';
+                        mmCtx.fillRect(lx - tw/2 - 3, ly - 8/mmScale, tw + 6, 16/mmScale);
+                        mmCtx.fillStyle = 'rgba(255,255,255,0.9)';
+                        mmCtx.fillText(e.label, lx, ly);
+                        mmCtx.restore();
+                    }
+                });
+
+                // Connecting preview
+                if(mmSelected !== null && mmConnPreview) {
+                    const src = nodes.find(n => n.id === mmSelected);
+                    if(src) {
+                        mmCtx.beginPath();
+                        mmCtx.setLineDash([6/mmScale, 4/mmScale]);
+                        mmCtx.moveTo(src.x, src.y);
+                        mmCtx.lineTo(mmConnPreview.x, mmConnPreview.y);
+                        mmCtx.strokeStyle = 'rgba(251,191,36,0.7)';
+                        mmCtx.lineWidth = 2 / mmScale;
+                        mmCtx.stroke();
+                        mmCtx.setLineDash([]);
+                    }
+                }
+
+                // Nodes
+                nodes.forEach(node => {
+                    const isSel = mmSelected === node.id;
+                    const lines = mmWrapText(node.text, MM_NODE_R * 2.4);
+                    const lh = 16;
+                    const bh = lines.length * lh + 18;
+                    const bw = Math.max(MM_NODE_R * 2.4 + 24, 70);
+
+                    mmCtx.save();
+                    mmCtx.shadowColor = node.color;
+                    mmCtx.shadowBlur = isSel ? 20 : 8;
+
+                    mmDrawNodeShape(mmCtx, node, bw, bh, isSel);
+                    mmCtx.fillStyle = node.color + '30';
+                    mmCtx.fill();
+                    mmCtx.strokeStyle = isSel ? '#fbbf24' : node.color;
+                    mmCtx.lineWidth = isSel ? 3 / mmScale : 2 / mmScale;
+                    mmCtx.stroke();
+                    mmCtx.restore();
+
+                    // Text
+                    mmCtx.fillStyle = '#f8fafc';
+                    mmCtx.font = `${isSel ? 'bold ' : ''}${12}px Inter, sans-serif`;
+                    mmCtx.textAlign = 'center';
+                    mmCtx.textBaseline = 'middle';
+                    const startY = node.y - ((lines.length - 1) * lh) / 2;
+                    lines.forEach((line, li) => mmCtx.fillText(line, node.x, startY + li * lh));
+
+                    if(isSel) {
+                        mmCtx.fillStyle = '#fbbf24';
+                        mmCtx.beginPath();
+                        mmCtx.arc(node.x + bw/2 - 5, node.y - bh/2 + 5, 4 / mmScale, 0, Math.PI * 2);
+                        mmCtx.fill();
+                    }
+                });
+
+                if(nodes.length === 0) {
+                    mmCtx.restore();
+                    mmCtx.fillStyle = 'rgba(255,255,255,0.18)';
+                    mmCtx.font = '15px Inter, sans-serif';
+                    mmCtx.textAlign = 'center';
+                    mmCtx.textBaseline = 'middle';
+                    mmCtx.fillText('Type an idea above and press Add to start', W/2, H/2);
+                    return;
+                }
+
+                mmCtx.restore();
+            }
+
+            function mmWrapText(text, maxW) {
+                if(!mmCtx) return [text];
+                const words = text.split(' ');
+                const lines = [];
+                let cur = '';
+                mmCtx.font = '12px Inter, sans-serif';
+                words.forEach(w => {
+                    const test = cur ? cur + ' ' + w : w;
+                    if(mmCtx.measureText(test).width > maxW && cur) { lines.push(cur); cur = w; }
+                    else cur = test;
+                });
+                if(cur) lines.push(cur);
+                return lines;
+            }
+
+            function mmNodeAt(wx, wy) {
+                const { nodes } = mmData();
+                for(let i = nodes.length - 1; i >= 0; i--) {
+                    const node = nodes[i];
+                    const lines = mmWrapText(node.text, MM_NODE_R * 2.4);
+                    const lh = 16;
+                    const bh = lines.length * lh + 18;
+                    const bw = Math.max(MM_NODE_R * 2.4 + 24, 70);
+                    const shape = node.shape || 'rect';
+                    if(shape === 'circle') {
+                        const r = Math.max(bw, bh) / 2;
+                        if(Math.hypot(wx - node.x, wy - node.y) <= r) return node;
+                    } else if(shape === 'diamond') {
+                        const hw = bw/2+6, hh = bh/2+6;
+                        if(Math.abs(wx-node.x)/hw + Math.abs(wy-node.y)/hh <= 1) return node;
+                    } else {
+                        if(wx >= node.x-bw/2 && wx <= node.x+bw/2 && wy >= node.y-bh/2 && wy <= node.y+bh/2) return node;
+                    }
+                }
+                return null;
+            }
+
+            function mmEdgeNear(wx, wy) {
+                const { nodes, edges } = mmData();
+                for(let i = 0; i < edges.length; i++) {
+                    const e = edges[i];
+                    const a = nodes.find(n => n.id === e.from);
+                    const b = nodes.find(n => n.id === e.to);
+                    if(!a || !b) continue;
+                    const dx = b.x - a.x, dy = b.y - a.y;
+                    const lenSq = dx*dx + dy*dy;
+                    if(lenSq === 0) continue;
+                    const t = Math.max(0, Math.min(1, ((wx-a.x)*dx + (wy-a.y)*dy) / lenSq));
+                    const px = a.x + t*dx - wx, py = a.y + t*dy - wy;
+                    if(px*px + py*py < 200 / (mmScale * mmScale)) return i;
+                }
+                return null;
+            }
+
+            function mmCanvasPos(ev) {
+                const rect = mmCanvas.getBoundingClientRect();
+                const cx = (ev.clientX - rect.left) * (mmCanvas.width / rect.width);
+                const cy = (ev.clientY - rect.top) * (mmCanvas.height / rect.height);
+                return mmToWorld(cx, cy);
+            }
+
+            function mmDeleteSelected() {
+                if(mmSelected === null) return;
+                const d = mmData();
+                d.nodes = d.nodes.filter(n => n.id !== mmSelected);
+                d.edges = d.edges.filter(e => e.from !== mmSelected && e.to !== mmSelected);
+                mmSelected = null; mmConnPreview = null;
+                mmSave(); mmRender();
+                mmShowHint('Node deleted');
+            }
+
+            // ---- Inline rename ----
+            let mmRenamingActive = false;
+
+            function mmStartRename(node) {
+                if(!mmRenameInput || !mmCanvas) return;
+                mmRenamingId = node.id;
+                mmRenamingActive = true;
+
+                // Position the input over the node in CSS-pixel space relative to mmCanvasWrap
+                const wrap = document.getElementById('mmCanvasWrap');
+                const wrapRect = wrap.getBoundingClientRect();
+                const canvasRect = mmCanvas.getBoundingClientRect();
+
+                // World -> canvas pixel -> CSS pixel relative to wrapper
+                const cxPx = node.x * mmScale + mmPan.x;   // canvas pixel X
+                const cyPx = node.y * mmScale + mmPan.y;   // canvas pixel Y
+                const cssScaleX = canvasRect.width  / mmCanvas.width;
+                const cssScaleY = canvasRect.height / mmCanvas.height;
+                const cssX = cxPx * cssScaleX;  // relative to canvas CSS position
+                const cssY = cyPx * cssScaleY;
+
+                mmRenameInput.style.display = 'block';
+                mmRenameInput.style.left  = Math.max(4, cssX - 70) + 'px';
+                mmRenameInput.style.top   = Math.max(4, cssY - 18) + 'px';
+                mmRenameInput.style.width = '140px';
+                mmRenameInput.value = node.text;
+                // Small delay so the mousedown that triggered us doesn't instantly steal focus back
+                setTimeout(() => { mmRenameInput.focus(); mmRenameInput.select(); }, 30);
+            }
+
+            if(mmRenameInput) {
+                const mmCommitRename = () => {
+                    const val = mmRenameInput.value.trim();
+                    if(val && mmRenamingId !== null) {
+                        const node = mmData().nodes.find(n => n.id === mmRenamingId);
+                        if(node) { node.text = val; mmSave(); mmRender(); }
+                    }
+                    mmRenameInput.style.display = 'none';
+                    mmRenamingId = null;
+                    mmRenamingActive = false;
+                };
+                mmRenameInput.addEventListener('keydown', e => {
+                    if(e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); mmCommitRename(); }
+                    e.stopPropagation(); // prevent Delete key from deleting nodes while typing
+                });
+                mmRenameInput.addEventListener('blur', () => {
+                    // Small delay: let a potential re-focus (from setTimeout in mmStartRename) settle
+                    setTimeout(() => {
+                        if(mmRenamingActive) mmCommitRename();
+                    }, 80);
+                });
+                // Prevent canvas mousedown from immediately hiding the rename field
+                mmRenameInput.addEventListener('mousedown', e => e.stopPropagation());
+            }
+
+            // ---- Mouse events ----
+            // Native dblclick for rename (more reliable than manual detection)
+            if(mmCanvas) {
+                mmCanvas.addEventListener('dblclick', ev => {
+                    const pos = mmCanvasPos(ev);
+                    const hit = mmNodeAt(pos.x, pos.y);
+                    if(hit) {
+                        ev.preventDefault();
+                        mmSelected = hit.id;
+                        mmStartRename(hit);
+                    }
+                });
+            }
+
+            let mmLastClickTime = 0;
+            let mmLastClickNode = null;
+
+            if(mmCanvas) {
+                // Mouse wheel zoom
+                mmCanvas.addEventListener('wheel', e => {
+                    e.preventDefault();
+                    const rect = mmCanvas.getBoundingClientRect();
+                    const cx = (e.clientX - rect.left) * (mmCanvas.width / rect.width);
+                    const cy = (e.clientY - rect.top) * (mmCanvas.height / rect.height);
+                    const delta = e.deltaY < 0 ? 0.1 : -0.1;
+                    const newScale = Math.max(0.2, Math.min(3, mmScale + delta));
+                    // Zoom toward cursor
+                    mmPan.x = cx - (cx - mmPan.x) * (newScale / mmScale);
+                    mmPan.y = cy - (cy - mmPan.y) * (newScale / mmScale);
+                    mmScale = newScale;
+                    mmUpdateZoomLabel();
+                    mmRender();
+                }, { passive: false });
+
+                mmCanvas.addEventListener('mousedown', ev => {
+                    if(ev.button === 1 || (ev.button === 0 && ev.altKey)) {
+                        // Middle button or Alt+drag = pan
+                        mmPanning = true;
+                        mmPanStart = { x: ev.clientX, y: ev.clientY };
+                        mmPanOrigin = { x: mmPan.x, y: mmPan.y };
+                        mmCanvas.style.cursor = 'grabbing';
+                        ev.preventDefault();
+                        return;
+                    }
+                    if(ev.button !== 0) return;
+                    const pos = mmCanvasPos(ev);
+                    const hit = mmNodeAt(pos.x, pos.y);
+                    const now = Date.now();
+
+                    mmLastClickTime = now;
+                    mmLastClickNode = hit ? hit.id : null;
+
+                    if(hit) {
+                        if(mmSelected !== null && mmSelected !== hit.id) {
+                            const d = mmData();
+                            const exists = d.edges.some(e => (e.from===mmSelected&&e.to===hit.id)||(e.from===hit.id&&e.to===mmSelected));
+                            if(!exists) {
+                                d.edges.push({ from: mmSelected, to: hit.id, style: mmActiveLineStyle, arrow: mmActiveArrow });
+                                mmShowHint('Connected! Select the line to change its style/arrow.');
+                            } else mmShowHint('Already connected — select the line to restyle it, or press ✂ to remove it');
+                            mmSelected = null; mmConnPreview = null;
+                            mmSave(); mmRender(); return;
+                        }
+                        mmSelected = hit.id;
+                        mmSelEdge = null;
+                        mmDragging = hit.id;
+                        mmDragOffset = { x: pos.x - hit.x, y: pos.y - hit.y };
+                        mmConnPreview = null;
+                        mmShowHint('Selected — drag to move • click another node to connect • right-click or Delete to remove');
+                        mmRender();
+                    } else {
+                        const ei = mmEdgeNear(pos.x, pos.y);
+                        if(ei !== null) {
+                            mmSelEdge = ei;
+                            mmSelected = null; mmConnPreview = null;
+                            // Sync toolbar to selected edge's style
+                            const selE = mmData().edges[ei];
+                            if(selE) {
+                                mmActiveLineStyle = selE.style || 'solid';
+                                mmActiveArrow = selE.arrow || 'none';
+                                mmSetLineStyleBtn(mmActiveLineStyle);
+                                mmSetArrowBtn(mmActiveArrow);
+                            }
+                            mmShowHint('Line selected — change style/arrow above • press ✂ to delete');
+                            mmRender();
+                        } else {
+                            // Start pan on blank area
+                            mmPanning = true;
+                            mmPanStart = { x: ev.clientX, y: ev.clientY };
+                            mmPanOrigin = { x: mmPan.x, y: mmPan.y };
+                            mmSelected = null; mmSelEdge = null; mmConnPreview = null;
+                            mmRender();
+                        }
+                    }
+                });
+
+                mmCanvas.addEventListener('contextmenu', ev => {
+                    ev.preventDefault();
+                    const pos = mmCanvasPos(ev);
+                    const hit = mmNodeAt(pos.x, pos.y);
+                    if(hit) { mmSelected = hit.id; mmDeleteSelected(); }
+                    else {
+                        // Right-click edge = add label
+                        const ei = mmEdgeNear(pos.x, pos.y);
+                        if(ei !== null) {
+                            const label = prompt('Edge label (leave blank to clear):');
+                            if(label !== null) { mmData().edges[ei].label = label.trim(); mmSave(); mmRender(); }
+                        }
+                    }
+                });
+
+                mmCanvas.addEventListener('mousemove', ev => {
+                    if(mmPanning) {
+                        mmPan.x = mmPanOrigin.x + (ev.clientX - mmPanStart.x);
+                        mmPan.y = mmPanOrigin.y + (ev.clientY - mmPanStart.y);
+                        mmRender();
+                        return;
+                    }
+                    const pos = mmCanvasPos(ev);
+                    if(mmDragging !== null) {
+                        const node = mmData().nodes.find(n => n.id === mmDragging);
+                        if(node) {
+                            node.x = pos.x - mmDragOffset.x;
+                            node.y = pos.y - mmDragOffset.y;
+                            mmConnPreview = null;
+                            mmRender();
+                        }
+                    } else if(mmSelected !== null && mmDragging === null) {
+                        mmConnPreview = pos;
+                        mmRender();
+                    }
+                    const hit = mmNodeAt(pos.x, pos.y);
+                    mmCanvas.style.cursor = hit ? (mmDragging ? 'grabbing' : 'grab') : (mmPanning ? 'grabbing' : 'default');
+                });
+
+                mmCanvas.addEventListener('mouseup', ev => {
+                    if(mmPanning) { mmPanning = false; mmCanvas.style.cursor = 'default'; return; }
+                    if(mmDragging !== null) { mmSave(); mmDragging = null; }
+                });
+
+                mmCanvas.addEventListener('mouseleave', () => {
+                    if(mmDragging !== null) { mmSave(); mmDragging = null; }
+                    mmPanning = false;
+                    mmConnPreview = null; mmRender();
+                });
+            }
+
+            document.addEventListener('keydown', ev => {
+                if((ev.key === 'Delete' || ev.key === 'Backspace') && mmSelected !== null) {
+                    const mm = document.getElementById('widget-mindmap');
+                    if(!mm || mm.style.display === 'none') return;
+                    if(document.activeElement && ['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+                    ev.preventDefault();
+                    mmDeleteSelected();
+                }
+            });
+
+            // ---- Fullscreen ----
+            const mmFullscreenBtn = document.getElementById('mmFullscreenBtn');
+            const mmCard = document.getElementById('widget-mindmap');
+            if(mmFullscreenBtn && mmCard) {
+                mmFullscreenBtn.addEventListener('click', () => {
+                    if(!document.fullscreenElement) {
+                        mmCard.requestFullscreen().then(() => {
+                            mmFullscreenBtn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+                            mmFullscreenBtn.title = 'Exit fullscreen';
+                            setTimeout(mmResize, 100);
+                        }).catch(() => {
+                            // Fallback: toggle a CSS fullscreen class
+                            mmCard.classList.toggle('mm-pseudo-fullscreen');
+                            setTimeout(mmResize, 100);
+                        });
+                    } else {
+                        document.exitFullscreen().then(() => {
+                            mmFullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+                            mmFullscreenBtn.title = 'Fullscreen';
+                            setTimeout(mmResize, 100);
+                        });
+                    }
+                });
+                document.addEventListener('fullscreenchange', () => {
+                    if(!document.fullscreenElement) {
+                        mmFullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+                        mmFullscreenBtn.title = 'Fullscreen';
+                        setTimeout(mmResize, 100);
+                    }
+                });
+            }
+
+            // ---- Page controls ----
+            document.getElementById('mmPrevPageBtn')?.addEventListener('click', () => {
+                if(mmCurrentPage > 0) { mmCurrentPage--; mmSelected = null; mmSelEdge = null; mmSave(); mmResize(); mmUpdatePageUI(); }
+            });
+            document.getElementById('mmNextPageBtn')?.addEventListener('click', () => {
+                if(mmCurrentPage < mmPages.length - 1) { mmCurrentPage++; mmSelected = null; mmSelEdge = null; mmSave(); mmResize(); mmUpdatePageUI(); }
+            });
+            document.getElementById('mmAddPageBtn')?.addEventListener('click', () => {
+                mmPages.splice(mmCurrentPage + 1, 0, { nodes: [], edges: [] });
+                mmCurrentPage++;
+                mmSelected = null; mmSelEdge = null;
+                mmSave(); mmResize(); mmUpdatePageUI();
+                mmShowHint('New page created');
+            });
+            document.getElementById('mmDelPageBtn')?.addEventListener('click', () => {
+                if(mmPages.length <= 1) { mmPages[0] = { nodes: [], edges: [] }; mmSave(); mmRender(); mmShowHint('Page cleared'); return; }
+                if(!confirm('Delete this mind map page?')) return;
+                mmPages.splice(mmCurrentPage, 1);
+                if(mmCurrentPage >= mmPages.length) mmCurrentPage = mmPages.length - 1;
+                mmSelected = null; mmSelEdge = null;
+                mmSave(); mmResize(); mmUpdatePageUI();
+            });
+
+            // ---- Add node ----
+            document.getElementById('mmAddNodeBtn')?.addEventListener('click', () => {
+                const inp = document.getElementById('mmNodeInput');
+                const t = inp?.value.trim();
+                if(!t) return;
+                const d = mmData();
+                const cx = (mmCanvas?.width || 400) / 2 + (Math.random() - 0.5) * 220;
+                const cy = (mmCanvas?.height || 300) / 2 + (Math.random() - 0.5) * 140;
+                d.nodes.push({ id: Date.now(), x: cx / mmScale - mmPan.x / mmScale, y: cy / mmScale - mmPan.y / mmScale, text: t, color: mmActiveColor, shape: mmActiveShape });
+                inp.value = '';
+                mmSave(); mmRender();
+                mmShowHint('Click a node to select it, then click another to connect');
+            });
+            document.getElementById('mmNodeInput')?.addEventListener('keypress', e => { if(e.key === 'Enter') document.getElementById('mmAddNodeBtn').click(); });
+
+            // ---- Delete selected edge ----
+            document.getElementById('mmDelEdgeBtn')?.addEventListener('click', () => {
+                if(mmSelEdge === null) { mmShowHint('Click an edge (line) first to select it'); return; }
+                mmData().edges.splice(mmSelEdge, 1);
+                mmSelEdge = null;
+                mmSave(); mmRender(); mmShowHint('Edge deleted');
+            });
+
+            // ---- Clear page ----
+            document.getElementById('mmClearBtn')?.addEventListener('click', () => {
+                if(!confirm('Clear all nodes on this page?')) return;
+                mmData().nodes = []; mmData().edges = [];
+                mmSelected = null; mmSelEdge = null;
+                mmSave(); mmRender();
+            });
+
+            // ---- Load ----
+            window.loadMindmap = function() {
+                try {
+                    const d = JSON.parse(localStorage.getItem(getStorageKey('learningMindmap'))) || {};
+                    mmPages = (d.pages && d.pages.length) ? d.pages : [{ nodes: [], edges: [] }];
+                    mmCurrentPage = d.page || 0;
+                    if(mmCurrentPage >= mmPages.length) mmCurrentPage = 0;
+                } catch(e) { mmPages = [{ nodes: [], edges: [] }]; mmCurrentPage = 0; }
+                mmSelected = null; mmSelEdge = null;
+                mmScale = 1; mmPan = { x: 0, y: 0 };
+                mmUpdatePageUI();
+                mmUpdateZoomLabel();
+                setTimeout(() => { mmResize(); }, 80);
+            };
+
+            window.addEventListener('resize', mmResize);
+
             // --- Quote Logic ---
             const quotes = [
                 {q: "Success is the sum of small efforts, repeated day in and day out.", a: "Robert Collier"},
@@ -2272,7 +4243,384 @@
                 document.getElementById('quoteAuthor').innerText = `- ${randQ.a}`;
             }
 
+            // ============================================================
+            // CIPHER LAB
+            // ============================================================
+            (function() {
+                const MORSE = {
+                    'a':'.-','b':'-...','c':'-.-.','d':'-..','e':'.','f':'..-.','g':'--.','h':'....','i':'..','j':'.---',
+                    'k':'-.-','l':'.-..','m':'--','n':'-.','o':'---','p':'.--.' ,'q':'--.-','r':'.-.','s':'...','t':'-',
+                    'u':'..-','v':'...-','w':'.--','x':'-..-','y':'-.--','z':'--..',
+                    '0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.',
+                    '.':'.-.-.-',',':'--..--','?':'..--..','!':'-.-.--',' ':'/'
+                };
+                const MORSE_REV = Object.fromEntries(Object.entries(MORSE).map(([k,v]) => [v,k]));
+
+                const PRESET_DESCS = {
+                    caesar: 'Shifts each letter forward by the shift amount. Classic Roman cipher.',
+                    rot13: 'Rotates letters by 13 places. Applying it twice restores the original.',
+                    atbash: 'Maps A→Z, B→Y, C→X... Reversing the alphabet.',
+                    reverse: 'Simply reverses the order of all characters in the message.',
+                    morse: 'Converts text to Morse code (dots and dashes). Decrypt reverses it.',
+                    binary: 'Converts each character to its 8-bit binary ASCII representation.'
+                };
+
+                // ---- state ----
+                let cipherMode = 'preset';   // 'preset' | 'custom'
+                let cipherPreset = 'caesar';
+                let caesarShift = 3;
+                let customMap = {};          // { 'from': 'to', ... }
+                let customCaseSensitive = false;
+
+                // ---- Elements ----
+                const inp   = document.getElementById('cipherInput');
+                const out   = document.getElementById('cipherOutput');
+                const badge = document.getElementById('cipherStatusBadge');
+                const desc  = document.getElementById('cipherPresetDesc');
+                const shiftSlider = document.getElementById('caesarShiftSlider');
+                const shiftLabel  = document.getElementById('caesarShiftLabel');
+                const caesarCtrl  = document.getElementById('caesarControl');
+                const presetPanel = document.getElementById('cipherPresetPanel');
+                const customPanel = document.getElementById('cipherCustomPanel');
+                const mapList     = document.getElementById('cipherMapList');
+                const mapFrom     = document.getElementById('cipherMapFrom');
+                const mapTo       = document.getElementById('cipherMapTo');
+                const caseLabel   = document.getElementById('cipherCaseLabel');
+
+                if(!inp) return; // widget not in DOM yet
+
+                // ---- Tab switching ----
+                document.querySelectorAll('.cipher-tab').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        cipherMode = btn.dataset.tab;
+                        document.querySelectorAll('.cipher-tab').forEach(b => {
+                            const active = b.dataset.tab === cipherMode;
+                            b.style.background = active ? 'rgba(245,158,11,0.2)' : 'transparent';
+                            b.style.color = active ? '#f59e0b' : 'var(--text-muted)';
+                        });
+                        presetPanel.style.display = cipherMode === 'preset' ? 'flex' : 'none';
+                        customPanel.style.display  = cipherMode === 'custom' ? 'flex' : 'none';
+                    });
+                });
+
+                // ---- Preset selection ----
+                document.querySelectorAll('.cipher-preset-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        cipherPreset = btn.dataset.preset;
+                        document.querySelectorAll('.cipher-preset-btn').forEach(b => {
+                            const a = b.dataset.preset === cipherPreset;
+                            b.style.background   = a ? 'rgba(245,158,11,0.15)' : 'rgba(255,255,255,0.04)';
+                            b.style.borderColor  = a ? 'rgba(245,158,11,0.4)'  : 'rgba(255,255,255,0.1)';
+                            b.style.color        = a ? '#f59e0b' : 'var(--text-muted)';
+                        });
+                        caesarCtrl.style.display = cipherPreset === 'caesar' ? 'block' : 'none';
+                        if(desc) desc.textContent = PRESET_DESCS[cipherPreset] || '';
+                    });
+                });
+
+                // ---- Caesar shift slider ----
+                if(shiftSlider) {
+                    shiftSlider.addEventListener('input', () => {
+                        caesarShift = parseInt(shiftSlider.value);
+                        if(shiftLabel) shiftLabel.textContent = caesarShift;
+                    });
+                }
+
+                // ---- Custom map ----
+                function renderMapList() {
+                    if(!mapList) return;
+                    mapList.innerHTML = '';
+                    Object.entries(customMap).forEach(([f, t]) => {
+                        const chip = document.createElement('div');
+                        chip.style.cssText = 'display:flex;align-items:center;gap:0.3rem;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);border-radius:6px;padding:0.25rem 0.5rem;font-size:0.82rem;font-family:monospace;color:#fcd34d;cursor:default;';
+                        chip.innerHTML = `<span>${f}</span><span style="color:var(--text-muted)">→</span><span>${t}</span><span style="cursor:pointer;color:#ef4444;margin-left:0.3rem;font-family:sans-serif;" data-del="${f}">✕</span>`;
+                        chip.querySelector('[data-del]').addEventListener('click', () => { delete customMap[f]; renderMapList(); saveCustomMap(); });
+                        mapList.appendChild(chip);
+                    });
+                }
+                function saveCustomMap() {
+                    localStorage.setItem(getStorageKey('cipherCustomMap'), JSON.stringify(customMap));
+                }
+                function loadCustomMap() {
+                    try { customMap = JSON.parse(localStorage.getItem(getStorageKey('cipherCustomMap'))) || {}; } catch(e) { customMap = {}; }
+                    renderMapList();
+                }
+                loadCustomMap();
+
+                document.getElementById('cipherAddMapBtn')?.addEventListener('click', () => {
+                    const f = mapFrom?.value;
+                    const t = mapTo?.value;
+                    if(!f || !t) return;
+                    customMap[f] = t;
+                    mapFrom.value = ''; mapTo.value = '';
+                    renderMapList(); saveCustomMap();
+                });
+                document.getElementById('cipherMapClearBtn')?.addEventListener('click', () => {
+                    if(!confirm('Clear all character mappings?')) return;
+                    customMap = {}; renderMapList(); saveCustomMap();
+                });
+                document.getElementById('cipherMapCaseSensBtn')?.addEventListener('click', () => {
+                    customCaseSensitive = !customCaseSensitive;
+                    if(caseLabel) caseLabel.textContent = customCaseSensitive ? 'Case-sensitive' : 'Case-insensitive';
+                });
+
+                // ---- Cipher Code: encode/decode ----
+                const CLX_PREFIX = 'CLX:';
+
+                function generateCipherCode(map, caseSens) {
+                    const payload = { m: map, c: caseSens ? 1 : 0 };
+                    return CLX_PREFIX + btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+                }
+
+                function parseCipherCode(code) {
+                    const raw = code.trim();
+                    if(!raw.startsWith(CLX_PREFIX)) return null;
+                    try {
+                        const json = decodeURIComponent(escape(atob(raw.slice(CLX_PREFIX.length))));
+                        const payload = JSON.parse(json);
+                        if(typeof payload.m !== 'object') return null;
+                        return payload;
+                    } catch(e) { return null; }
+                }
+
+                function applyParsedCipher(payload) {
+                    customMap = payload.m || {};
+                    customCaseSensitive = !!(payload.c);
+                    if(caseLabel) caseLabel.textContent = customCaseSensitive ? 'Case-sensitive' : 'Case-insensitive';
+                    renderMapList();
+                    saveCustomMap();
+                }
+
+                // ---- Named cipher save/load ----
+                const NAMED_KEY = 'cipherNamedCiphers';
+
+                function loadNamedCiphers() {
+                    try { return JSON.parse(localStorage.getItem(NAMED_KEY)) || {}; }
+                    catch(e) { return {}; }
+                }
+                function saveNamedCiphers(obj) {
+                    localStorage.setItem(NAMED_KEY, JSON.stringify(obj));
+                }
+
+                function renderSavedList() {
+                    const listEl = document.getElementById('cipherSavedList');
+                    if(!listEl) return;
+                    listEl.innerHTML = '';
+                    const named = loadNamedCiphers();
+                    if(Object.keys(named).length === 0) {
+                        listEl.innerHTML = '<span style="font-size:0.72rem;color:var(--text-muted);font-style:italic;">No saved ciphers yet.</span>';
+                        return;
+                    }
+                    Object.entries(named).forEach(([name, code]) => {
+                        const row = document.createElement('div');
+                        row.style.cssText = 'display:flex;align-items:center;gap:0.4rem;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.18);border-radius:6px;padding:0.3rem 0.5rem;';
+                        row.innerHTML = `
+                            <i class="fa-solid fa-key" style="color:#a855f7;font-size:0.75rem;"></i>
+                            <span style="flex:1;font-size:0.78rem;font-weight:700;color:white;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${name}">${name}</span>
+                            <button title="Load" style="background:rgba(168,85,247,0.2);border:none;border-radius:4px;color:#a855f7;padding:0.15rem 0.45rem;font-size:0.75rem;cursor:pointer;" data-load="${name}"><i class="fa-solid fa-arrow-down"></i></button>
+                            <button title="Copy code" style="background:rgba(14,165,233,0.15);border:none;border-radius:4px;color:#0ea5e9;padding:0.15rem 0.45rem;font-size:0.75rem;cursor:pointer;" data-copy="${name}"><i class="fa-solid fa-copy"></i></button>
+                            <button title="Delete" style="background:rgba(239,68,68,0.12);border:none;border-radius:4px;color:#ef4444;padding:0.15rem 0.45rem;font-size:0.75rem;cursor:pointer;" data-delete="${name}"><i class="fa-solid fa-trash"></i></button>
+                        `;
+                        row.querySelector('[data-load]').addEventListener('click', () => {
+                            const p = parseCipherCode(code);
+                            if(!p) return setCodeStatus('⚠ Saved cipher data is corrupt.', '#ef4444');
+                            applyParsedCipher(p);
+                            setCodeStatus(`✓ Loaded "${name}"`, '#10b981');
+                        });
+                        row.querySelector('[data-copy]').addEventListener('click', () => {
+                            navigator.clipboard.writeText(code).then(() => setCodeStatus('Copied!', '#10b981'));
+                        });
+                        row.querySelector('[data-delete]').addEventListener('click', () => {
+                            const named2 = loadNamedCiphers();
+                            delete named2[name];
+                            saveNamedCiphers(named2);
+                            renderSavedList();
+                            setCodeStatus(`Deleted "${name}"`, '#f59e0b');
+                        });
+                        listEl.appendChild(row);
+                    });
+                }
+                renderSavedList();
+
+                function setCodeStatus(msg, color) {
+                    const el = document.getElementById('cipherCodeStatus');
+                    if(!el) return;
+                    el.textContent = msg;
+                    el.style.color = color || 'var(--text-muted)';
+                    clearTimeout(el._t);
+                    el._t = setTimeout(() => { el.textContent = ''; }, 3500);
+                }
+
+                // Save named cipher
+                document.getElementById('cipherSaveNamedBtn')?.addEventListener('click', () => {
+                    const nameEl = document.getElementById('cipherSaveName');
+                    const name = nameEl?.value.trim();
+                    if(!name) { setCodeStatus('⚠ Enter a name first.', '#ef4444'); return; }
+                    if(Object.keys(customMap).length === 0) { setCodeStatus('⚠ Map is empty — add some pairs first.', '#ef4444'); return; }
+                    const code = generateCipherCode(customMap, customCaseSensitive);
+                    const named = loadNamedCiphers();
+                    named[name] = code;
+                    saveNamedCiphers(named);
+                    nameEl.value = '';
+                    renderSavedList();
+                    setCodeStatus(`✓ Saved as "${name}"`, '#10b981');
+                });
+
+                // Export: generate code into the field
+                document.getElementById('cipherExportCodeBtn')?.addEventListener('click', () => {
+                    if(Object.keys(customMap).length === 0) { setCodeStatus('⚠ Map is empty — add some pairs first.', '#ef4444'); return; }
+                    const code = generateCipherCode(customMap, customCaseSensitive);
+                    const field = document.getElementById('cipherCodeField');
+                    if(field) { field.value = code; field.select(); }
+                    setCodeStatus('✓ Code generated — copy it to share', '#10b981');
+                });
+
+                // Import: parse code from the field
+                document.getElementById('cipherImportCodeBtn')?.addEventListener('click', () => {
+                    const field = document.getElementById('cipherCodeField');
+                    const code = field?.value.trim();
+                    if(!code) { setCodeStatus('⚠ Paste a CLX code first.', '#ef4444'); return; }
+                    const payload = parseCipherCode(code);
+                    if(!payload) { setCodeStatus('⚠ Invalid code — must start with CLX:', '#ef4444'); return; }
+                    applyParsedCipher(payload);
+                    const n = Object.keys(customMap).length;
+                    setCodeStatus(`✓ Loaded ${n} mapping${n!==1?'s':''}`, '#10b981');
+                    if(field) field.value = '';
+                });
+
+                // Copy code field to clipboard
+                document.getElementById('cipherCopyCodeBtn')?.addEventListener('click', () => {
+                    const field = document.getElementById('cipherCodeField');
+                    if(!field?.value) { setCodeStatus('⚠ Generate a code first.', '#ef4444'); return; }
+                    navigator.clipboard.writeText(field.value).then(() => setCodeStatus('Copied to clipboard!', '#10b981'));
+                });
+
+                // Auto-detect pasting a CLX code into the code field
+                document.getElementById('cipherCodeField')?.addEventListener('paste', (e) => {
+                    setTimeout(() => {
+                        const val = document.getElementById('cipherCodeField')?.value.trim();
+                        if(val && val.startsWith(CLX_PREFIX)) {
+                            const payload = parseCipherCode(val);
+                            if(payload) {
+                                applyParsedCipher(payload);
+                                document.getElementById('cipherCodeField').value = '';
+                                const n = Object.keys(customMap).length;
+                                setCodeStatus(`✓ Auto-loaded ${n} mapping${n!==1?'s':''} from pasted code`, '#10b981');
+                            }
+                        }
+                    }, 30);
+                });
+
+                // ---- Cipher engine ----
+                function caesarChar(ch, shift, decrypt) {
+                    const base = ch >= 'a' && ch <= 'z' ? 97 : 65;
+                    const s = decrypt ? (26 - shift) : shift;
+                    return String.fromCharCode(((ch.charCodeAt(0) - base + s) % 26) + base);
+                }
+
+                function applyPreset(text, decrypt) {
+                    switch(cipherPreset) {
+                        case 'caesar':
+                            return text.split('').map(c => /[a-zA-Z]/.test(c) ? caesarChar(c, caesarShift, decrypt) : c).join('');
+                        case 'rot13':
+                            return text.split('').map(c => /[a-zA-Z]/.test(c) ? caesarChar(c, 13, false) : c).join('');
+                        case 'atbash':
+                            return text.split('').map(c => {
+                                if(c >= 'a' && c <= 'z') return String.fromCharCode(219 - c.charCodeAt(0));
+                                if(c >= 'A' && c <= 'Z') return String.fromCharCode(155 - c.charCodeAt(0));
+                                return c;
+                            }).join('');
+                        case 'reverse':
+                            return text.split('').reverse().join('');
+                        case 'morse':
+                            if(decrypt) {
+                                return text.split('  ').map(word =>
+                                    word.split(' ').map(code => MORSE_REV[code] !== undefined ? MORSE_REV[code] : '?').join('')
+                                ).join(' ');
+                            } else {
+                                return text.toLowerCase().split('').map(c => MORSE[c] !== undefined ? MORSE[c] : c).join(' ');
+                            }
+                        case 'binary':
+                            if(decrypt) {
+                                return text.trim().split(/\s+/).map(b => {
+                                    const code = parseInt(b, 2);
+                                    return isNaN(code) ? '?' : String.fromCharCode(code);
+                                }).join('');
+                            } else {
+                                return text.split('').map(c => c.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
+                            }
+                        default: return text;
+                    }
+                }
+
+                function applyCustom(text, decrypt) {
+                    // Build working map (forward or reversed)
+                    let map = customMap;
+                    if(decrypt) map = Object.fromEntries(Object.entries(customMap).map(([k,v]) => [v,k]));
+                    return text.split('').map(ch => {
+                        if(customCaseSensitive) {
+                            return map[ch] !== undefined ? map[ch] : ch;
+                        } else {
+                            const lower = ch.toLowerCase();
+                            const upper = ch.toUpperCase();
+                            if(map[lower] !== undefined) return ch === upper ? map[lower].toUpperCase() : map[lower];
+                            return map[ch] !== undefined ? map[ch] : ch;
+                        }
+                    }).join('');
+                }
+
+                function runCipher(decrypt) {
+                    const text = inp.value;
+                    if(!text.trim()) { out.value = ''; return; }
+                    let result;
+                    if(cipherMode === 'preset') {
+                        result = applyPreset(text, decrypt);
+                    } else {
+                        if(Object.keys(customMap).length === 0) {
+                            out.value = '⚠ Add at least one character mapping first.';
+                            return;
+                        }
+                        result = applyCustom(text, decrypt);
+                    }
+                    out.value = result;
+                    if(badge) {
+                        badge.textContent = decrypt ? '🔓 Decrypted' : '🔒 Encrypted';
+                        badge.style.background = decrypt ? 'rgba(59,130,246,0.15)' : 'rgba(245,158,11,0.15)';
+                        badge.style.color = decrypt ? '#60a5fa' : '#f59e0b';
+                    }
+                }
+
+                document.getElementById('cipherEncryptBtn')?.addEventListener('click', () => runCipher(false));
+                document.getElementById('cipherDecryptBtn')?.addEventListener('click', () => runCipher(true));
+
+                // Swap in ↔ out
+                document.getElementById('cipherSwapBtn')?.addEventListener('click', () => {
+                    const tmp = inp.value;
+                    inp.value = out.value;
+                    out.value = tmp;
+                    if(badge) badge.textContent = '';
+                });
+
+                // Copy output
+                document.getElementById('cipherCopyBtn')?.addEventListener('click', () => {
+                    if(!out.value) return;
+                    navigator.clipboard.writeText(out.value).then(() => {
+                        const btn = document.getElementById('cipherCopyBtn');
+                        if(btn) { btn.innerHTML = '<i class="fa-solid fa-check"></i>'; setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-copy"></i>'; }, 1500); }
+                    });
+                });
+
+                // Save/restore input on load
+                if(inp) {
+                    inp.addEventListener('input', () => localStorage.setItem(getStorageKey('cipherInput'), inp.value));
+                    const saved = localStorage.getItem(getStorageKey('cipherInput'));
+                    if(saved) inp.value = saved;
+                }
+            })();
+
             // Initialize Everything
+
+            if(typeof loadExtraHubs === 'function') loadExtraHubs();
             loadContext('learning');
             loadFlashcards();
             if(typeof updateStatsDisplay === 'function') updateStatsDisplay();
