@@ -2206,6 +2206,9 @@
                 <button class="icon-btn" id="mmExportBtn" title="Export as PNG"
                     style="padding: 0.2rem 0.5rem; font-size: 0.8rem; color: #10b981;"><i
                         class="fa-solid fa-download"></i></button>
+                <button class="icon-btn" id="mmPlayModeBtn" title="Toggle Play Mode"
+                    style="padding: 0.2rem 0.5rem; font-size: 0.8rem; color: #3b82f6;"><i
+                        class="fa-solid fa-play"></i></button>
                 <button class="icon-btn" id="mmClearBtn" title="Clear this page"
                     style="padding: 0.2rem 0.5rem; font-size: 0.8rem; color: #ef4444;"><i
                         class="fa-solid fa-trash"></i></button>
@@ -4680,8 +4683,23 @@
                 let mmActiveLineStyle = 'solid';  // solid | dashed | dotted
                 let mmActiveArrow = 'none';        // none | forward | both
 
+                // Play Mode state
+                let mmPlayMode = false;
+                let mmPlayCurrentNode = null;
+                let mmPlayHistory = [];
+
                 // Double-click rename state
                 let mmRenamingId = null;
+
+                function mmCenterOnNode(nodeId) {
+                    const node = mmData().nodes.find(n => n.id === nodeId);
+                    if (node && mmCanvas) {
+                        const cx = mmCanvas.width / 2;
+                        const cy = mmCanvas.height / 2;
+                        mmPan.x = cx - node.x * mmScale;
+                        mmPan.y = cy - node.y * mmScale;
+                    }
+                }
 
                 function mmShowHint(msg) {
                     const el = document.getElementById('mmHint');
@@ -4831,6 +4849,39 @@
                     mmShowHint('Mind map exported!');
                 });
 
+                // ---- Play Mode ----
+                document.getElementById('mmPlayModeBtn')?.addEventListener('click', () => {
+                    const btn = document.getElementById('mmPlayModeBtn');
+                    if (mmPlayMode) {
+                        mmPlayMode = false;
+                        btn.style.background = 'rgba(255,255,255,0.07)';
+                        btn.style.color = '#3b82f6';
+                        btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                        mmShowHint('Exited Play Mode');
+                    } else {
+                        const d = mmData();
+                        if (d.nodes.length === 0) { mmShowHint('Add nodes first!'); return; }
+                        mmPlayMode = true;
+                        btn.style.background = 'rgba(59,130,246,0.3)';
+                        btn.style.color = '#60a5fa';
+                        btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+                        
+                        if (mmSelected && d.nodes.find(n => n.id === mmSelected)) {
+                            mmPlayCurrentNode = mmSelected;
+                        } else {
+                            const hasIncoming = {};
+                            d.edges.forEach(e => hasIncoming[e.to] = true);
+                            const root = d.nodes.find(n => !hasIncoming[n.id]);
+                            mmPlayCurrentNode = root ? root.id : d.nodes[0].id;
+                        }
+                        mmPlayHistory = [];
+                        mmSelected = null;
+                        mmCenterOnNode(mmPlayCurrentNode);
+                        mmShowHint('Play Mode! Click child nodes to advance. Right-click to go back.');
+                    }
+                    mmRender();
+                });
+
                 // ---- Resize ----
                 function mmResize() {
                     if (!mmCanvas) return;
@@ -4915,6 +4966,9 @@
 
                     // Edges
                     edges.forEach((e, ei) => {
+                        if (mmPlayMode && mmPlayCurrentNode) {
+                            if (e.from !== mmPlayCurrentNode) return;
+                        }
                         const a = nodes.find(n => n.id === e.from);
                         const b = nodes.find(n => n.id === e.to);
                         if (!a || !b) return;
@@ -4994,6 +5048,12 @@
 
                     // Nodes
                     nodes.forEach(node => {
+                        if (mmPlayMode && mmPlayCurrentNode) {
+                            if (node.id !== mmPlayCurrentNode) {
+                                const isChild = edges.some(e => e.from === mmPlayCurrentNode && e.to === node.id);
+                                if (!isChild) return;
+                            }
+                        }
                         const isSel = mmSelected === node.id;
                         const lines = mmWrapText(node.text, MM_NODE_R * 2.4);
                         const lh = 16;
@@ -5064,9 +5124,15 @@
                 }
 
                 function mmNodeAt(wx, wy) {
-                    const { nodes } = mmData();
+                    const { nodes, edges } = mmData();
                     for (let i = nodes.length - 1; i >= 0; i--) {
                         const node = nodes[i];
+                        if (mmPlayMode && mmPlayCurrentNode) {
+                            if (node.id !== mmPlayCurrentNode) {
+                                const isChild = edges.some(e => e.from === mmPlayCurrentNode && e.to === node.id);
+                                if (!isChild) continue;
+                            }
+                        }
                         const lines = mmWrapText(node.text, MM_NODE_R * 2.4);
                         const lh = 16;
                         const bh = lines.length * lh + 18;
@@ -5178,6 +5244,7 @@
                 // Native dblclick for rename (more reliable than manual detection)
                 if (mmCanvas) {
                     mmCanvas.addEventListener('dblclick', ev => {
+                        if (mmPlayMode) return;
                         const pos = mmCanvasPos(ev);
                         const hit = mmNodeAt(pos.x, pos.y);
                         if (hit) {
@@ -5209,6 +5276,27 @@
                     }, { passive: false });
 
                     mmCanvas.addEventListener('mousedown', ev => {
+                        if (mmPlayMode) {
+                            if (ev.button !== 0) return;
+                            const pos = mmCanvasPos(ev);
+                            const hit = mmNodeAt(pos.x, pos.y);
+                            if (hit && hit.id !== mmPlayCurrentNode) {
+                                const isChild = mmData().edges.some(e => e.from === mmPlayCurrentNode && e.to === hit.id);
+                                if (isChild) {
+                                    mmPlayHistory.push(mmPlayCurrentNode);
+                                    mmPlayCurrentNode = hit.id;
+                                    mmCenterOnNode(hit.id);
+                                    mmRender();
+                                }
+                            } else if (!hit) {
+                                mmPanning = true;
+                                mmPanStart = { x: ev.clientX, y: ev.clientY };
+                                mmPanOrigin = { x: mmPan.x, y: mmPan.y };
+                                mmCanvas.style.cursor = 'grabbing';
+                            }
+                            return;
+                        }
+
                         if (ev.button === 1 || (ev.button === 0 && ev.altKey)) {
                             // Middle button or Alt+drag = pan
                             mmPanning = true;
@@ -5272,6 +5360,16 @@
 
                     mmCanvas.addEventListener('contextmenu', ev => {
                         ev.preventDefault();
+                        if (mmPlayMode) {
+                            if (mmPlayHistory.length > 0) {
+                                mmPlayCurrentNode = mmPlayHistory.pop();
+                                mmCenterOnNode(mmPlayCurrentNode);
+                                mmRender();
+                            } else {
+                                mmShowHint('At start of play mode');
+                            }
+                            return;
+                        }
                         const pos = mmCanvasPos(ev);
                         const hit = mmNodeAt(pos.x, pos.y);
                         if (hit) { mmSelected = hit.id; mmDeleteSelected(); }
